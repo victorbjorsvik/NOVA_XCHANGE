@@ -3,7 +3,6 @@ import os
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, lookup, usd, list_coins
@@ -36,35 +35,34 @@ def after_request(response):
 @login_required
 def index():
     """Render Welcome Page"""
-
     return render_template("index.html")
 
 
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
-    """Buy shares of stock"""
+    """Buy amount of coin"""
 
     # User reached route via POST
     if request.method == "POST":
 
         # Ensure valid ticker
         if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
-            return apology("Please insert valid ticker", 400)
+            return apology("Please insert valid coin", 400)
 
-        # Ensure valid amount of shares
+        # Ensure valid amount
         try:
-            if float(request.form.get("shares")) < 0:
+            if float(request.form.get("amount")) < 0:
                 return apology("Please insert a positive value", 400)
         except ValueError:
             return apology("please insert a valid float", 400)
 
         # Establish variables
         symbol = request.form.get("symbol")
-        shares = float(request.form.get("shares"))
-        stock = lookup(symbol)
-        price = float(stock["price"])
-        total = shares * price
+        amount = float(request.form.get("amount"))
+        coin = lookup(symbol)
+        price = float(coin["price"])
+        total = amount * price
         rows = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
 
         # Ensure proper coverage
@@ -72,8 +70,8 @@ def buy():
             return apology("Not enough cash", 400)
 
         # Insert purchase into history table
-        db.execute("INSERT INTO history (user_id, symbol, price, shares, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
-                   session["user_id"], symbol, price, shares, total * -1)
+        db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
+                   session["user_id"], symbol, price, amount, total * -1)
 
         # Update holdings
         portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session["user_id"])
@@ -82,10 +80,10 @@ def buy():
             holdings.append(portfolio[i]["symbol"])
 
         if symbol in holdings:
-            db.execute("UPDATE holdings SET shares = shares + ? WHERE symbol = ? AND user_id = ?",
-                       shares, symbol, session["user_id"])
+            db.execute("UPDATE holdings SET amount = amount + ? WHERE symbol = ? AND user_id = ?",
+                       amount, symbol, session["user_id"])
         else:
-            db.execute("INSERT INTO holdings (user_id, symbol, shares) VALUES (?, ?, ?)", session["user_id"], symbol, shares)
+            db.execute("INSERT INTO holdings (user_id, symbol, amount) VALUES (?, ?, ?)", session["user_id"], symbol, amount)
 
         # Update remaining cash
         db.execute("UPDATE users SET cash = cash - ? WHERE id = ?", total, session["user_id"])
@@ -201,48 +199,48 @@ def register():
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
-    """Sell shares of stock"""
+    """Sell amount of coin"""
     portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session["user_id"])
     if request.method == "POST":
 
         ## Data validation ##
         # Check for input
         symbol = request.form.get("symbol")
-        shares = int(request.form.get("shares"))
+        amount = float(request.form.get("amount"))
         holdings = []
         for i in range(len(portfolio)):
             holdings.append(portfolio[i]["symbol"])
 
-        # Check if ticker selected
+        # Check if coin selected
         if not symbol:
             return apology("Select a coin", 400)
 
-        # Check if ticker in portfolio
+        # Check if coin in portfolio
         elif not symbol in holdings:
             return apology("Coin not found", 400)
 
-        # Ensure enough shares
-        n = db.execute("SELECT shares FROM holdings WHERE user_id = ? and symbol = ?", session["user_id"], symbol)
-        if shares > n[0]["shares"]:
-            return apology("not enough shares", 400)
+        # Ensure enough coins
+        n = db.execute("SELECT amount FROM holdings WHERE user_id = ? and symbol = ?", session["user_id"], symbol)
+        if amount > n[0]["amount"]:
+            return apology("not enough amount", 400)
 
         ## UPDATE DATABASE##
         # Establish variables
-        stock = lookup(symbol)
-        price = float(stock["price"])
-        total = shares * price
+        coin = lookup(symbol)
+        price = float(coin["price"])
+        total = amount * price
 
         # Update cash
         db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", total, session["user_id"])
 
         # Update history
-        db.execute("INSERT INTO history (user_id, symbol, price, shares, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
-                   session["user_id"], symbol, price, shares * -1, total)
+        db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
+                   session["user_id"], symbol, price, amount * -1, total)
 
         # Update holdings
-        db.execute("UPDATE holdings SET shares = shares - ? WHERE symbol = ? AND user_id = ?", shares, symbol, session["user_id"])
-        # Delete lines with zero-share holdings - no need to specify user_id as no columns should ever have shares = 0
-        db.execute("DELETE FROM holdings WHERE shares = 0")
+        db.execute("UPDATE holdings SET amount = amount - ? WHERE symbol = ? AND user_id = ?", amount, symbol, session["user_id"])
+        # Delete lines with zero-amount holdings - no need to specify user_id as no columns should ever have amount = 0
+        db.execute("DELETE FROM holdings WHERE amount = 0")
 
         return redirect("/")
     else:
@@ -251,7 +249,7 @@ def sell():
 @app.route("/coins", methods=["GET", "POST"])
 @login_required
 def coins():
-    """Get stock quote."""
+    """Get coin quote."""
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -261,10 +259,10 @@ def coins():
             return apology("Please insert valid ticker", 400)
 
         # call the lookupfunction
-        stock = lookup(request.form.get("symbol"))
-        stock["price"] = usd(stock["price"])
+        coin = lookup(request.form.get("symbol"))
+        coin["price"] = usd(coin["price"])
 
-        return render_template("quoted.html", stock=stock)
+        return render_template("quoted.html", coin=coin)
 
     else:
         transactions = list_coins()

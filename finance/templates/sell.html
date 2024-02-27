@@ -8,14 +8,14 @@
     <form action="/sell" method="post">
         <div>
             <select name="symbol">
-                <option disabled selected>Ticker</option>
+                <option disabled selected>Coin</option>
                 {% for portfolio in portfolio %}
                 <option>{{portfolio.symbol}}</option>
                 {% endfor %}
             </select>
         </div>
         <div>
-            <input autocomplete="off" id="shares" name="shares" placeholder="Shares" type="number">
+            <input autocomplete="off" id="amount" name="amount" placeholder="Amount" type="text">
         </div>
         <button type="submit">Sell</button>
     </form>
