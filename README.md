@@ -36,3 +36,11 @@ the cursor should change from a '$' to 'sqlite'
 ```
 SELECT * FROM holdings;
 ```
+
+
+
+# NOVA SBE CRYPTO EXCHANGE
+59279 Justin Bruce Sams
+58165 Victor Bjorsvik
+60161 Tim Gunkel
+59892 Moritz Deuchler
