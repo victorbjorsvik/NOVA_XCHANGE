@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -270,4 +270,53 @@ def coins():
         return render_template("coins.html", transactions=transactions)
     
 
- @app.route()
+@app.route("/API_portfolio")
+def API_portfolio():
+    # Establish portfolio
+    portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session.get("user_id"))
+
+    # Add current price and name of stock to portfolio
+    for i in range(len(portfolio)):
+        add = lookup(portfolio[i]["symbol"])
+        portfolio[i]["coin"] = add["name"]
+        portfolio[i]["price_current"] = add["price"]
+        portfolio[i]["total_current"] = portfolio[i]["amount"] * portfolio[i]["price_current"]
+    # Fetch current cash from DB
+    cash = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))
+
+       # Calculate total balance
+    sum_holdings = sum(portfolio[i]["total_current"] for i in range(len(portfolio)))
+    total = sum_holdings + cash[0]["cash"]
+    
+    # Prepare JSON response
+    response_data = {
+        "portfolio": portfolio,
+        "cash": cash[0],
+        "total": total,
+        "sum_holdings": sum_holdings
+    }
+
+    return jsonify(response_data)
+
+
+@app.route("/API_history")
+@login_required
+def API_history():
+    """Show history of transactions"""
+    transactions = db.execute("SELECT * FROM history WHERE user_id = ?", session["user_id"])
+
+    # Convert transactions to a list of dictionaries
+    transactions_list = [dict(transaction) for transaction in transactions]
+
+    # Prepare JSON response
+    response_data = {
+        "transactions": transactions_list
+    }
+
+    return jsonify(response_data)
+
+@app.route("/history")
+@login_required
+def test():
+    return render_template("history.html")
+
