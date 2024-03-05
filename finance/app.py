@@ -267,3 +267,6 @@ def coins():
     else:
         transactions = list_coins()
         return render_template("coins.html", transactions=transactions)
+    
+
+ @app.route()
