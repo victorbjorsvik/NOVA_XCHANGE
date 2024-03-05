@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account - Nova Sbe Crypto Exchange</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-zmvONaEtH6XFvXQ5QjYzTEzU1f3AsqMrnQ11Pv1yJlXmHVznLtJTz8dpQxL5RFvVuXtMQDQyWJtFPQopC4v4Qg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <header>
+    <h1>Nova Sbe Crypto Exchange</h1>
+    
+    <div class="user-links">
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </div>
+  </header>
+  <main>
+    <div class="greeting">
+        <p>Hello, <span id="account-name">John</span></p>
+    </div>
+
+    <section class="navigation">
+      <a href="searchcoins.html" class="nav-box">
+        <i class="fas fa-search nav-icon"></i>
+        <p>Search Coins</p>
+      </a>
+      <a href="analytics.html" class="nav-box">
+        <i class="fas fa-chart-line nav-icon"></i>
+        <p>Analytics</p>
+      </a>
+    </section>
+    <section class="dashboard">
+      <h2>Dashboard</h2>
+      <div id="positions">
+        <div class="position">
+          <p><strong>Bitcoin (BTC)</strong></p>
+          <p>Price: $23000</p>
+          <p>Total Invested: $10000</p>
+          <p><input type="text" placeholder="Enter amount to sell"></p>
+          <button type="button" class="sell-button">Sell</button>
+        </div>
+        <!-- Add more positions as needed -->
+      </div>
+    </section>
+    <section class="transaction-history">
+      <h2>Transaction History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Coin</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody id="transaction-history-data">
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2023 Nova Sbe Crypto Exchange</p>
+  </footer>
+  <script>
+    const accountNameElement = document.getElementById("account-name");
+    // Replace with logic to fetch the account name from the database
+    accountNameElement.textContent = "John Doe"; // Replace with actual user name
+
+    const positionsContainer = document.getElementById("positions");
+    const transactionHistoryData = document.getElementById("transaction-history-data");
+
+    // Replace this with logic to fetch user positions from database
+    const userPositions = [
+      {
+        coin: "Bitcoin (BTC)",
+        currentPrice: 23000,
+        totalInvested: 10000,
+        amount: 0.4345,
+      },
+      // Add more objects for additional positions
+    ];
+
+    if (userPositions.length > 0) {
+      userPositions.forEach((position) => {
+        const positionElement = document.createElement("div");
+        positionElement.classList.add("position");
+        positionElement.innerHTML = `
+          <p><strong>${position.coin}</strong></p>
+          <p>Price: $${position.currentPrice}</p>
+          <p>Total Invested: $${position.totalInvested}</p>
+          <p><input type="text" placeholder="Enter amount to sell"></p>
+          <button type="button" class="sell-button">Sell</button>
+        `;
+        positionsContainer.appendChild(positionElement);
+      });
+    } else {
+      positionsContainer.innerHTML = `<p>You currently have no positions.</p>`;
+    }
+
+    // Replace this with logic to fetch transaction history from database
+    const transactionHistory = [
+      {
+        coin: "Bitcoin (BTC)",
+        amount: 0.2,
+        price: 20000,
+        total: 4000,
+        date: "2023-12-15",
+        type: "Buy",
+      },
+      {
+        coin: "Ethereum (ETH)",
+        amount: 1,
+        price: 1500,
+        total: 1500,
+        date: "2023-12-16",
+        type: "Buy",
+      },
+      // Add more objects for additional transactions
+    ];
+
+    transactionHistory.forEach((transaction) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${transaction.coin}</td>
+        <td>${transaction.amount}</td>
+        <td>${transaction.price}</td>
+        <td>${transaction.total}</td>
+        <td>${transaction.date}</td>
+        <td>${transaction.type}</td>
+      `;
+      transactionHistoryData.appendChild(row);
+    });
+  </script>
+</body>
+</html>
