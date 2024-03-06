@@ -324,3 +324,5 @@ def test():
 @login_required
 def dashboard():
     return render_template("test.html")
+
+# Let's fix the other routes
