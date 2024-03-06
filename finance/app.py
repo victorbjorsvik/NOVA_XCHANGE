@@ -325,4 +325,46 @@ def test():
 def dashboard():
     return render_template("test.html")
 
-# Let's fix the other routes
+@app.route("/searchcoins", methods=["GET", "POST"])
+@login_required
+def searchcoins():
+    """Get coin quote."""
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure valid ticker
+        if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
+            return apology("Please insert valid ticker", 400)
+
+        # call the lookupfunction
+        coin = lookup(request.form.get("symbol"))
+        coin["price"] = usd(coin["price"])
+
+        return render_template("searchcoins.html", coin=coin)
+
+    else:
+        return render_template("searchcoins.html")
+
+
+@app.route("/analytics", methods=["GET", "POST"])
+@login_required
+def analytics():
+    """Get coin quote."""
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure valid ticker
+        if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
+            return apology("Please insert valid ticker", 400)
+
+        # call the lookupfunction
+        coin = lookup(request.form.get("symbol"))
+        coin["price"] = usd(coin["price"])
+
+        return render_template("analytics.html", coin=coin)
+
+    else:
+        return render_template("analytics.html")
+

@@ -111,3 +111,22 @@ nav {
 .wide-search button:hover {
     background-color: #0056b3;
 }
+
+.logout-2 {
+    margin-left: auto;
+}
+
+.logout-button-2 {
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline */
+}
+
+.logout-button-2:hover {
+    background-color: #d00; /* Darker red on hover */
+}
+
