@@ -19,6 +19,9 @@
     fetch('/API_portfolio')
         .then(response => response.json())
         .then(data => {
+          
+            const accountNameElement = document.querySelector('#account-name');
+            accountNameElement.textContent = data.cash.username;
             const container = document.querySelector('#positions');
             const table = document.createElement('table');
             table.className = 'center';

@@ -281,8 +281,8 @@ def API_portfolio():
         portfolio[i]["coin"] = add["name"]
         portfolio[i]["price_current"] = add["price"]
         portfolio[i]["total_current"] = portfolio[i]["amount"] * portfolio[i]["price_current"]
-    # Fetch current cash from DB
-    cash = db.execute("SELECT cash FROM users WHERE id = ?", session.get("user_id"))
+    # Fetch current cash and Username from DB
+    cash = db.execute("SELECT cash, username FROM users WHERE id = ?", session.get("user_id"))
 
        # Calculate total balance
     sum_holdings = sum(portfolio[i]["total_current"] for i in range(len(portfolio)))
@@ -293,7 +293,8 @@ def API_portfolio():
         "portfolio": portfolio,
         "cash": cash[0],
         "total": total,
-        "sum_holdings": sum_holdings
+        "sum_holdings": sum_holdings,
+        #"username": cash[1]["username"]
     }
 
     return jsonify(response_data)
