@@ -294,7 +294,6 @@ def API_portfolio():
         "cash": cash[0],
         "total": total,
         "sum_holdings": sum_holdings,
-        #"username": cash[1]["username"]
     }
 
     return jsonify(response_data)
@@ -369,3 +368,4 @@ def analytics():
     else:
         return render_template("analytics.html")
 
+# staed for commit
