@@ -51,26 +51,28 @@
     </svg> Analytics
   </a>
 </nav>
-<main>
-  <section class="specific-content">
-    <p class="hello-user">Hello, <span id="account-name">John</span></p>
-    <!-- Page specific content goes here -->
-    <!-- For test.html, you can add the dashboard content here -->
-
-    <h2>Dashboard</h2>
-    <div id="positions">
-      <!-- Dynamic content for positions will be inserted here -->
-    </div>
-  </section>
-  <section class="sell-coins">
-    <div class="sell-form">
-      <input type="text" placeholder="Enter amount to sell">
-      <button type="button" class="sell-button">Sell</button>
-    </div>
-  </section>
-</main>
-<footer>
-  <p>&copy; 2023 Nova Sbe Crypto Exchange</p>
-</footer>
+<!-- Page specific content goes here -->      
+    <section class="transaction-history">
+      <h2>Transaction History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Coin</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody id="transaction-history-data">
+          <!-- Dynamic content for transaction history will be inserted here -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2023 Nova Sbe Crypto Exchange</p>
+  </footer>
 </body>
 </html>

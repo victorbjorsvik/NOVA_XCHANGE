@@ -1,1 +1,113 @@
-Test
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+/* Header styles */
+header {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 80px;
+    margin-right: 20px;
+    filter: invert(100%); /* Invert color to make the logo white */
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Center align logo and text */
+    width: 100%;
+}
+
+.logout {
+    margin-left: auto;
+}
+
+.logout-button {
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Main styles */
+main {
+    padding: 20px;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    background-color: #f0f0f0;
+    padding: 10px 0;
+}
+
+.nav-button {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #ddd;
+}
+
+/* Specific content styles */
+.specific-content {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.hello-user {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Adjusting the width of the search bar in search coins */
+.wide-search {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.wide-search input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.wide-search button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wide-search button:hover {
+    background-color: #0056b3;
+}
