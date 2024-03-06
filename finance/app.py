@@ -320,3 +320,7 @@ def API_history():
 def test():
     return render_template("history.html")
 
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template("dashboard.html")
