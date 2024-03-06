@@ -318,5 +318,5 @@ def API_history():
 @app.route("/history")
 @login_required
 def test():
-    return render_template("history.html")
+    return render_template("transactionhistory.html")
 
