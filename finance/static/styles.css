@@ -72,15 +72,41 @@ nav {
 
 /* Specific content styles */
 .specific-content {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
+    margin: 150px auto 30px auto; /* Vergrößern Sie den oberen Rand */
+    padding: 30px;
+    background-color: #eaeaea; /* Hellerer Hintergrund */
+    color: #000; /* Schwarze Schriftfarbe */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: calc(100% - 20px); /* Bildschirmbreite minus 20px Rand */
+    font-family: 'Poppins', sans-serif;
 }
 
-.hello-user {
-    font-size: 18px;
-    margin-bottom: 10px;
+.specific-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: left; /* Text links ausrichten */
+}
+
+/* Chart container styles */
+.chart-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px; /* Vergrößern Sie den Abstand zum Inhalt */
+}
+
+.chart-box {
+    flex: 0 0 calc(50% - 10px); /* Zwei Spalten mit Abstand */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f2f2f2; /* Hellerer Hintergrund */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    color: #000; /* Schwarze Schriftfarbe */
+    font-family: 'Poppins', sans-serif;
+}
+
+.chart-box:last-child {
+    margin-left: 20px; /* Abstand zwischen den Boxen */
 }
 
 /* Adjusting the width of the search bar in search coins */
