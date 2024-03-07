@@ -328,20 +328,54 @@ def dashboard():
 @app.route("/searchcoins", methods=["GET", "POST"])
 @login_required
 def searchcoins():
-    """Get coin quote."""
+    """Render the searchcoins template and deal with buying coins."""
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
         # Ensure valid ticker
         if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
-            return apology("Please insert valid ticker", 400)
+            return apology("Please insert valid coin", 400)
 
-        # call the lookupfunction
-        coin = lookup(request.form.get("symbol"))
-        coin["price"] = usd(coin["price"])
+        # Ensure valid amount
+        try:
+            if float(request.form.get("amount")) < 0:
+                return apology("Please insert a positive value", 400)
+        except ValueError:
+            return apology("please insert a valid float", 400)
 
-        return render_template("searchcoins.html", coin=coin)
+        # Establish variables
+        symbol = request.form.get("symbol")
+        amount = float(request.form.get("amount"))
+        coin = lookup(symbol)
+        price = float(coin["price"])
+        total = amount * price
+        rows = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+
+        # Ensure proper coverage
+        if total > rows[0]["cash"]:
+            return apology("Not enough cash", 400)
+
+        # Insert purchase into history table
+        db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
+                   session["user_id"], symbol, price, amount, total * -1)
+
+        # Update holdings
+        portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session["user_id"])
+        holdings = []
+        for i in range(len(portfolio)):
+            holdings.append(portfolio[i]["symbol"])
+
+        if symbol in holdings:
+            db.execute("UPDATE holdings SET amount = amount + ? WHERE symbol = ? AND user_id = ?",
+                       amount, symbol, session["user_id"])
+        else:
+            db.execute("INSERT INTO holdings (user_id, symbol, amount) VALUES (?, ?, ?)", session["user_id"], symbol, amount)
+
+        # Update remaining cash
+        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?", total, session["user_id"])
+
+        return redirect("/")
 
     else:
         return render_template("searchcoins.html")

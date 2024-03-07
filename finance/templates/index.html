@@ -33,6 +33,7 @@
                 const th = document.createElement('th');
                 th.textContent = headerText;
                 th.style.width = '300px';
+                th.style.textAlign = 'left';
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
@@ -175,7 +176,7 @@
 </nav>
 <main>
   <section class="specific-content">
-    <p class="hello-user">Hello, <span id="account-name">John</span></p>
+    <p class="hello-user">Hello, <span id="account-name"></span></p>
     <!-- Page specific content goes here -->
     <!-- For test.html, you can add the dashboard content here -->
 
