@@ -1,31 +1,42 @@
 /* Global styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f8f8f8;
+    overflow-x: hidden;
 }
 
 /* Header styles */
 header {
-    background-color: #333;
+    background-color: #3e3e3e;
     color: white;
     padding: 10px 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+.header-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Adjust padding as needed */
 }
 
 .logo {
     width: 80px;
     margin-right: 20px;
-    filter: invert(100%); /* Invert color to make the logo white */
+    filter: invert(100%);
 }
 
-.header-container {
+.navigation {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Center align logo and text */
-    width: 100%;
+    justify-content: flex-start;
+    flex-grow: 1;
+    padding-left: 20px;
 }
 
 .logout {
@@ -33,26 +44,21 @@ header {
 }
 
 .logout-button {
-    background-color: #f00;
-    color: #fff;
+    background-color: #d85454;
+    color: white;
     border: none;
     padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
 }
 
-/* Main styles */
-main {
-    padding: 20px;
+.logout-button:hover {
+    background-color: #ed1c1c;
 }
 
-nav {
-    margin-bottom: 20px;
-}
-
+/* Navigation styles */
 .navigation {
-    display: flex;
-    justify-content: center;
+    justify-content: space-around;
     background-color: #f0f0f0;
     padding: 10px 0;
 }
@@ -64,52 +70,60 @@ nav {
     margin: 0 10px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    font-size: 1.1em;
+    cursor: pointer;
 }
 
 .nav-button:hover {
     background-color: #ddd;
 }
 
-/* Specific content styles */
-.specific-content {
-    margin: 30px; /* Vergrößern Sie den oberen Rand */
+/* Main styles */
+main {
+    padding: 20px;
+}
+
+/* Container for specific content and charts */
+.specific-content,
+.chart-container {
+    margin: 30px auto;
     padding: 30px;
-    background-color: #eaeaea; /* Hellerer Hintergrund */
-    color: #000; /* Schwarze Schriftfarbe */
+    background-color: #eaeaea;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: calc(100% - 20px); /* Bildschirmbreite minus 20px Rand */
-    font-family: 'Poppins', sans-serif;
+    max-width: calc(100% - 60px);
+    box-sizing: border-box;
 }
 
-.specific-content h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    text-align: left; /* Text links ausrichten */
-}
-
-/* Chart container styles */
 .chart-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 30px; /* Vergrößern Sie den Abstand zum Inhalt */
+    justify-content: space-around; /* Adjust as per the desired spacing */
+    align-items: flex-start;
+    gap: 20px; /* Optional: Use gap to add space between the boxes */
 }
 
+/* Chart box styles */
 .chart-box {
-    flex: 0 0 calc(50% - 10px); /* Zwei Spalten mit Abstand */
+    flex: 1;
+    max-width: calc(50% - 10px); /* Adjust width as needed */
     padding: 20px;
+    background-color: #eaeaea;
     border-radius: 8px;
-    background-color: #f2f2f2; /* Hellerer Hintergrund */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    color: #000; /* Schwarze Schriftfarbe */
-    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.chart-box:last-child {
-    margin-left: 20px; /* Abstand zwischen den Boxen */
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chart-container {
+        flex-direction: column;
+    }
+    .chart-box {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
 }
 
-/* Adjusting the width of the search bar in search coins */
+/* Wide search bar */
 .wide-search {
     display: flex;
     align-items: center;
@@ -117,19 +131,21 @@ nav {
     margin: 0 auto;
 }
 
-.wide-search input[type="text"] {
-    flex: 1;
+.wide-search input[type="text"],
+.wide-search button {
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 5px;
 }
 
+.wide-search input[type="text"] {
+    flex: 1;
+    border: 1px solid #ccc;
+}
+
 .wide-search button {
-    padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -138,106 +154,117 @@ nav {
     background-color: #0056b3;
 }
 
-.logout-2 {
-    margin-left: auto;
-}
-
-.logout-button-2 {
-    background-color: #f00;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none; /* Remove underline */
-}
-
-.logout-button-2:hover {
-    background-color: #d00; /* Darker red on hover */
-}
-.navigation {
-    display: flex;
-    justify-content: space-around; /* This will distribute space evenly */
-    background-color: #f2f2f2; /* Grey background for the buttons */
-    padding: 10px 0; /* Add some padding above and below the buttons */
-    }
-
-    .nav-button {
-    padding: 10px 20px; /* Increase button size */
-    background-color: transparent; /* Clear any background styling if present */
-    border: none; /* Remove borders if present */
-    font-size: 1.1em; /* Increase font size */
-    cursor: pointer; /* To indicate the buttons are clickable */
-    }
-    #positions {
-  font-family: 'Arial', sans-serif;
-  margin-top: 20px;
-  overflow-x: auto;
+/* Dashboard and balances */
+#positions {
+    font-family: 'Arial', sans-serif;
+    margin-top: 20px;
+    overflow-x: auto;
 }
 
 #positions table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
-#positions th, #positions td {
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+#positions th,
+#positions td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
 }
 
 #positions th {
-  background-color: #7d57c1;
-  color: white;
+    background-color: #3e3e3e;
+    color: white;
 }
 
 #positions tr:nth-child(even) {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
 
 #positions tr:hover {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 
-#positions th:first-child, #positions td:first-child {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+#positions th:first-child,
+#positions td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
-#positions th:last-child, #positions td:last-child {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+#positions th:last-child,
+#positions td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
+
 .balances {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px; /* Adjust as needed */
-  text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Adjust as needed */
 }
 
 .balance-item {
-  background: #f8f8f8; /* Light gray background */
-  border: 1px solid #e1e1e1; /* Border color */
-  border-radius: 8px; /* Rounded corners */
-  padding: 20px;
-  margin: 0 10px; /* Space between balance items */
-  width: 250px; /* Fixed width, adjust as needed */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+    background: #f8f8f8;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px; /* Adjust width as needed */
+    margin: 0 15px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .balance-item h3 {
-  color: #333; /* Dark text color for the header */
-  margin-bottom: 10px;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 .balance-item p {
-  color: #7d57c1; /* Theme color */
-  font-size: 1.5em; /* Larger text for balance amounts */
-  font-weight: bold;
+    color: #7d57c1;
+    font-size: 1.5em;
+    font-weight: bold;
 }
+
 .hello-user {
-  font-size: 1.5em; /* Adjust as needed */
-  text-align: center; /* Center the text */
-  margin-top: 20px; /* Add some space above the greeting */
+    text-align: center;
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 40px 0;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    order: 1;
 }
+
+/* Shared table styles */
+.coin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .coin-thead th {
+    background-color: #3e3e3e;
+    color: white;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .coin-tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  .coin-tbody tr:nth-child(even) {
+    background-color: #eaeaea;
+  }
+  
+  .coin-tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .coin-tbody tr:hover {
+    background-color: #ddd;
+  }
+  

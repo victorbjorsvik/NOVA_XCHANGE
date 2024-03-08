@@ -6,22 +6,6 @@
   <title>Dashboard - Nova Sbe Crypto Exchange</title>
   <link rel="stylesheet" href="../static/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-  <style>
-    .navigation {
-      text-align: center;
-    }
-    .nav-button {
-      margin: 10px;
-    }
-    .price-window {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-weight: bold;
-    }
-  </style>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -29,7 +13,9 @@
     const data_3 = await response_3.json();
     console.log(data_3);
     const table = document.createElement('table');
+    table.className = 'coin-table';
     const thead = document.createElement('thead');
+    thead.className = 'coin-thead';
     const headerRow = document.createElement('tr');
     ['Name', 'Symbol', 'Price'].forEach(headerText => {
       const th = document.createElement('th');
@@ -134,7 +120,7 @@
   </nav>
   <main>
     <div class="wide-search">
-      <input type="text" placeholder="Search for coins..." id="wide-search">
+      <input type="text" class="dashboard-input" placeholder="Search for coins..." id="wide-search">
       <button type="button" class="search-button" id="search-button">Search</button>
     </div>
     <div id="container">
@@ -151,7 +137,7 @@
         <button type="submit">Buy</button>
     </form>
     </div>
-    <div id="all_coins">
+    <div id="all_coins" class="specific-content">
       <!-- Table of all available coins will be added here dynamically -->
     </div>
   </main>
