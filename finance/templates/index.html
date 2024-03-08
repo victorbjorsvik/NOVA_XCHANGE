@@ -6,14 +6,7 @@
   <title>Dashboard - Nova Sbe Crypto Exchange</title>
   <link rel="stylesheet" href="../static/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-zmvONaEtH6XFvXQ5QjYzTEzU1f3AsqMrnQ11Pv1yJlXmHVznLtJTz8dpQxL5RFvVuXtMQDQyWJtFPQopC4v4Qg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    .navigation {
-      text-align: center;
-    }
-    .nav-button {
-      margin: 10px;
-    }
-  </style>
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
     fetch('/API_portfolio')
@@ -232,8 +225,21 @@ function sendFormToServer(formData) {
 
 </nav>
 <main>
-  <p class="hello-user"> 👋 Hello, <span id="account-name"></span></p>
-
+  <p class="hello-user"> 👋 Hello, <span id="account-name"></span>! Are you ready to go to the Moon?</p>
+  <section class="balances">
+    <div class="balance-item">
+      <h3>Stock Balance:</h3>
+      <p id="stock-balance">$8,779.34</p>
+    </div>
+    <div class="balance-item">
+      <h3>Cash Balance:</h3>
+      <p id="cash-balance">$1,829.78</p>
+    </div>
+    <div class="balance-item">
+      <h3>Total Balance:</h3>
+      <p id="total-balance">$10,609.12</p>
+    </div>
+  </section>
   <section class="specific-content">
     <!-- Page specific content goes here -->
     <!-- For test.html, you can add the dashboard content here -->

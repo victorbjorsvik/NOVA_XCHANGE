@@ -8,7 +8,7 @@ body {
 
 /* Header styles */
 header {
-    background-color: black;
+    background-color: #333;
     color: white;
     padding: 10px 20px;
     display: flex;
@@ -72,7 +72,7 @@ nav {
 
 /* Specific content styles */
 .specific-content {
-    margin: 150px auto 30px auto; /* Vergrößern Sie den oberen Rand */
+    margin: 30px; /* Vergrößern Sie den oberen Rand */
     padding: 30px;
     background-color: #eaeaea; /* Hellerer Hintergrund */
     color: #000; /* Schwarze Schriftfarbe */
@@ -92,7 +92,7 @@ nav {
 .chart-container {
     display: flex;
     justify-content: space-between;
-    margin-top: 50px; /* Vergrößern Sie den Abstand zum Inhalt */
+    margin-top: 30px; /* Vergrößern Sie den Abstand zum Inhalt */
 }
 
 .chart-box {
@@ -155,4 +155,89 @@ nav {
 .logout-button-2:hover {
     background-color: #d00; /* Darker red on hover */
 }
+.navigation {
+    display: flex;
+    justify-content: space-around; /* This will distribute space evenly */
+    background-color: #f2f2f2; /* Grey background for the buttons */
+    padding: 10px 0; /* Add some padding above and below the buttons */
+    }
 
+    .nav-button {
+    padding: 10px 20px; /* Increase button size */
+    background-color: transparent; /* Clear any background styling if present */
+    border: none; /* Remove borders if present */
+    font-size: 1.1em; /* Increase font size */
+    cursor: pointer; /* To indicate the buttons are clickable */
+    }
+    #positions {
+  font-family: 'Arial', sans-serif;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+#positions table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#positions th, #positions td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+#positions th {
+  background-color: #7d57c1;
+  color: white;
+}
+
+#positions tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#positions tr:hover {
+  background-color: #ddd;
+}
+
+#positions th:first-child, #positions td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+#positions th:last-child, #positions td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.balances {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px; /* Adjust as needed */
+  text-align: center;
+}
+
+.balance-item {
+  background: #f8f8f8; /* Light gray background */
+  border: 1px solid #e1e1e1; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px;
+  margin: 0 10px; /* Space between balance items */
+  width: 250px; /* Fixed width, adjust as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+}
+
+.balance-item h3 {
+  color: #333; /* Dark text color for the header */
+  margin-bottom: 10px;
+}
+
+.balance-item p {
+  color: #7d57c1; /* Theme color */
+  font-size: 1.5em; /* Larger text for balance amounts */
+  font-weight: bold;
+}
+.hello-user {
+  font-size: 1.5em; /* Adjust as needed */
+  text-align: center; /* Center the text */
+  margin-top: 20px; /* Add some space above the greeting */
+}
