@@ -13,6 +13,36 @@
     .nav-button {
       margin: 10px;
     }
+    .transaction-history {
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #f2f2f2;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .transaction-history h2 {
+      color: #333;
+    }
+    .transaction-history table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .transaction-history th,
+    .transaction-history td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .transaction-history th {
+      background-color: #f2f2f2;
+    }
+    .transaction-history .buy {
+      color: red;
+    }
+    .transaction-history .sell {
+      color: green;
+    }
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -34,28 +64,33 @@
           table.appendChild(thead);
 
           // Create table body
-          // Create table body
-            const tbody = document.createElement('tbody');
-            data.transactions.forEach(transaction => {
-                const row = document.createElement('tr');
-                ['symbol', 'amount', 'price', 'total', 'date'].forEach(key => {
-                    const cell = document.createElement('td');
-                    if (key === 'date') {
-                        const date = new Date(transaction[key]);
-                        cell.textContent = date.toLocaleString();
-                    } else if (key === 'amount' || key === 'price' || key === 'total') {
-                        cell.textContent = parseFloat(transaction[key]).toFixed(4);
-                    } else if (key === 'symbol') {
-                        cell.textContent = transaction[key];
-                    } else {
-                        cell.textContent = "N/A"; // or another message indicating missing data
-                    }
-                    row.appendChild(cell);
-                });
-                tbody.appendChild(row);
+          const tbody = document.createElement('tbody');
+          data.transactions.forEach(transaction => {
+            const row = document.createElement('tr');
+            ['symbol', 'amount', 'price', 'total', 'date', 'type'].forEach(key => {
+              const cell = document.createElement('td');
+              if (key === 'date') {
+                const date = new Date(transaction[key]);
+                cell.textContent = date.toLocaleString();
+              } else if (key === 'amount' || key === 'price' || key === 'total') {
+                cell.textContent = parseFloat(transaction[key]).toFixed(4);
+              } else if (key === 'symbol') {
+                cell.textContent = transaction[key];
+              } else if (key === 'type') {
+                cell.textContent = transaction[key];
+                if (transaction[key] === '-') {
+                  cell.classList.add('buy');
+                } else if (transaction[key] === '+') {
+                  cell.classList.add('sell');
+                }
+              } else {
+                cell.textContent = "N/A"; // or another message indicating missing data
+              }
+              row.appendChild(cell);
             });
-            table.appendChild(tbody);
-
+            tbody.appendChild(row);
+          });
+          table.appendChild(tbody);
 
           container.appendChild(table);
         })
