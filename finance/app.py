@@ -228,7 +228,6 @@ def sell():
         ## UPDATE DATABASE##
         # Establish variables
         coin = lookup(symbol)
-        price = float(coin["price"])
         total = amount * price
 
         # Update cash
