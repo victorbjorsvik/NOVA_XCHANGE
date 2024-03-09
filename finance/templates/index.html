@@ -46,7 +46,12 @@ data.portfolio.forEach((item, index) => {
     const row = document.createElement('tr');
     ['coin', 'amount', 'price_current', 'total_current', '', ''].forEach((key, cellIndex) => {
         const cell = document.createElement('td');
-        if (cellIndex === 4) {
+        if (cellIndex === 2 || cellIndex === 3) {
+            // Assuming the item[key] is a string that can be converted to a float
+            const roundedValue = parseFloat(item[key]).toFixed(2);
+            cell.textContent = roundedValue;
+            cell.textContent = `$${roundedValue}`;
+        } else if (cellIndex === 4) {
             // Create input field for 'Sell Amount' column
             const input = document.createElement('input');
             input.type = 'number';

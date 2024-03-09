@@ -6,117 +6,59 @@
   <title>Dashboard - Nova Sbe Crypto Exchange</title>
   <link rel="stylesheet" href="../static/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-zmvONaEtH6XFvXQ5QjYzTEzU1f3AsqMrnQ11Pv1yJlXmHVznLtJTz8dpQxL5RFvVuXtMQDQyWJtFPQopC4v4Qg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<<<<<<< HEAD
-  
-=======
-  <style>
-    .transaction-history-container {
-      margin: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      background-color: #f2f2f2;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .transaction-history h2 {
-      color: #333;
-    }
-    .transaction-history table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    .transaction-history th,
-    .transaction-history td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    .transaction-history th {
-      background-color: #7d57c1; /* Purple */
-      color: white; /* White text */
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-    .transaction-history td:first-child {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-    .transaction-history th:last-child,
-    .transaction-history td:last-child {
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-    .transaction-history tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    .transaction-history tr:hover {
-      background-color: #ddd;
-    }
-    .transaction-history .buy {
-      color: red;
-    }
-    .transaction-history .sell {
-      color: green;
-    }
-  </style>
->>>>>>> 3901195f40c673dd05f4bc02d101f3f768e85259
+
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      fetch('/API_history') // Assuming your Flask server is serving the API at this endpoint
-        .then(response => response.json())
-        .then(data => {
-          const container = document.querySelector('#trans_table');
-          const table = document.createElement('table');
-          table.className = 'style-table';
+document.addEventListener("DOMContentLoaded", function() {
+  fetch('/API_history') // Assuming your Flask server is serving the API at this endpoint
+    .then(response => response.json())
+    .then(data => {
+      const container = document.querySelector('#trans_table');
+      const table = document.createElement('table');
+      table.className = 'style-table';
 
-          // Create table header
-          const thead = document.createElement('thead');
-          thead.className = 'style-thead';
-          const headerRow = document.createElement('tr');
-          ['Symbol', 'Amount', 'Price', 'Total', 'Transaction Date'].forEach(headerText => {
-            const th = document.createElement('th');
-            th.textContent = headerText;
-            headerRow.appendChild(th);
-          });
-          thead.appendChild(headerRow);
-          table.appendChild(thead);
+      // Create table header
+      const thead = document.createElement('thead');
+      thead.className = 'style-thead';
+      const headerRow = document.createElement('tr');
+      ['Symbol', 'Amount', 'Price per Coin', 'Total Price', 'Transaction Date'].forEach(headerText => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
 
-          // Create table body
-          const tbody = document.createElement('tbody');
-          tbody.className = 'style-tbody';
-          data.transactions.forEach(transaction => {
-            const row = document.createElement('tr');
-            ['symbol', 'amount', 'price', 'total', 'date', 'type'].forEach(key => {
-              const cell = document.createElement('td');
-              if (key === 'date') {
-                const date = new Date(transaction[key]);
-                cell.textContent = date.toLocaleString();
-              } else if (key === 'amount' || key === 'price' || key === 'total') {
-                cell.textContent = parseFloat(transaction[key]).toFixed(4);
-              } else if (key === 'symbol') {
-                cell.textContent = transaction[key];
-              } else if (key === 'type') {
-                cell.textContent = transaction[key];
-                if (transaction[key] === '-') {
-                  cell.classList.add('buy');
-                } else if (transaction[key] === '+') {
-                  cell.classList.add('sell');
-                }
-              } else {
-                cell.textContent = "N/A"; // or another message indicating missing data
-              }
-              row.appendChild(cell);
-            });
-            tbody.appendChild(row);
-          });
-          table.appendChild(tbody);
-
-          container.appendChild(table);
-        })
-        .catch(error => {
-          console.error('Error fetching API:', error);
+      // Create table body
+      const tbody = document.createElement('tbody');
+      tbody.className = 'style-tbody';
+      data.transactions.forEach(transaction => {
+        const row = document.createElement('tr');
+        ['symbol', 'amount', 'price', 'total', 'date'].forEach(key => {
+          const cell = document.createElement('td');
+          if (key === 'date') {
+            const date = new Date(transaction[key]);
+            cell.textContent = date.toLocaleString();
+          } else if (key === 'price' || key === 'total') {
+            const value = parseFloat(transaction[key]).toFixed(2);
+            cell.textContent = `$${value}`;
+          } else if (key === 'amount') {
+            cell.textContent = parseFloat(transaction[key]).toFixed(4);
+          } else if (key === 'symbol') {
+            cell.textContent = transaction[key];
+          } else {
+            cell.textContent = "N/A";
+          }
+          row.appendChild(cell);
         });
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+      container.appendChild(table);
+    })
+    .catch(error => { // Correct placement of .catch
+      console.error('Error fetching API:', error);
     });
+});
   </script>
 </head>
 <body>

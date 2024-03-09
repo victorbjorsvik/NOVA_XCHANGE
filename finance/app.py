@@ -196,55 +196,45 @@ def register():
     else:
         return render_template("register.html")
 
-
-@app.route("/sell", methods=["GET", "POST"])
+@app.route("/sell", methods=["POST"])
 @login_required
 def sell():
-    """Sell amount of coin"""
+    # Get the form data from the request
+    form_data = request.get_json()
+    coin = form_data["coin"]
+    amount = float(form_data["amount"])
+    index = form_data["index"]
+
+    # Perform data validation
     portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session["user_id"])
-    if request.method == "POST":
+    holdings = [holding["symbol"] for holding in portfolio]
 
-        ## Data validation ##
-        # Check for input
-        symbol = request.form.get("symbol")
-        amount = float(request.form.get("amount"))
-        holdings = []
-        for i in range(len(portfolio)):
-            holdings.append(portfolio[i]["symbol"])
+    if not coin:
+        return jsonify({"error": "Select a coin"}), 400
+    elif coin not in holdings:
+        return jsonify({"error": "Coin not found"}), 400
 
-        # Check if coin selected
-        if not symbol:
-            return apology("Select a coin", 400)
+    # Get the current holding for the selected coin
+    holding = db.execute("SELECT * FROM holdings WHERE user_id = ? AND symbol = ?", session["user_id"], coin)
+    if not holding:
+        return jsonify({"error": "Coin not found in holdings"}), 400
 
-        # Check if coin in portfolio
-        elif not symbol in holdings:
-            return apology("Coin not found", 400)
+    # Ensure enough coins
+    if amount > holding[0]["amount"]:
+        return jsonify({"error": "Not enough amount"}), 400
 
-        # Ensure enough coins
-        n = db.execute("SELECT amount FROM holdings WHERE user_id = ? and symbol = ?", session["user_id"], symbol)
-        if amount > n[0]["amount"]:
-            return apology("not enough amount", 400)
+    # Update the database
+    coin_data = lookup(coin)
+    price = float(coin_data["price"])
+    total = amount * price
 
-        ## UPDATE DATABASE##
-        # Establish variables
-        coin = lookup(symbol)
-        total = amount * price
+    db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", total, session["user_id"])
+    db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES (?, ?, ?, ?, ?, datetime('now'))",
+               session["user_id"], coin, price, amount * -1, total)
+    db.execute("UPDATE holdings SET amount = amount - ? WHERE symbol = ? AND user_id = ?", amount, coin, session["user_id"])
+    db.execute("DELETE FROM holdings WHERE amount = 0")
 
-        # Update cash
-        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", total, session["user_id"])
-
-        # Update history
-        db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
-                   session["user_id"], symbol, price, amount * -1, total)
-
-        # Update holdings
-        db.execute("UPDATE holdings SET amount = amount - ? WHERE symbol = ? AND user_id = ?", amount, symbol, session["user_id"])
-        # Delete lines with zero-amount holdings - no need to specify user_id as no columns should ever have amount = 0
-        db.execute("DELETE FROM holdings WHERE amount = 0")
-
-        return redirect("/")
-    else:
-        return render_template("sell.html", portfolio=portfolio)
+    return jsonify({"success": True})
 
 @app.route("/coins", methods=["GET", "POST"])
 @login_required
