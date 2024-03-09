@@ -6,44 +6,7 @@
   <title>Dashboard - Nova Sbe Crypto Exchange</title>
   <link rel="stylesheet" href="../static/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-zmvONaEtH6XFvXQ5QjYzTEzU1f3AsqMrnQ11Pv1yJlXmHVznLtJTz8dpQxL5RFvVuXtMQDQyWJtFPQopC4v4Qg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    .navigation {
-      text-align: center;
-    }
-    .nav-button {
-      margin: 10px;
-    }
-    .transaction-history {
-      margin: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      background-color: #f2f2f2;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .transaction-history h2 {
-      color: #333;
-    }
-    .transaction-history table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    .transaction-history th,
-    .transaction-history td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    .transaction-history th {
-      background-color: #f2f2f2;
-    }
-    .transaction-history .buy {
-      color: red;
-    }
-    .transaction-history .sell {
-      color: green;
-    }
-  </style>
+  
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       fetch('/API_history') // Assuming your Flask server is serving the API at this endpoint
@@ -51,9 +14,11 @@
         .then(data => {
           const container = document.querySelector('#trans_table');
           const table = document.createElement('table');
+          table.className = 'style-table';
 
           // Create table header
           const thead = document.createElement('thead');
+          thead.className = 'style-thead';
           const headerRow = document.createElement('tr');
           ['Symbol', 'Amount', 'Price', 'Total', 'Transaction Date'].forEach(headerText => {
             const th = document.createElement('th');
@@ -65,6 +30,7 @@
 
           // Create table body
           const tbody = document.createElement('tbody');
+          tbody.className = 'style-tbody';
           data.transactions.forEach(transaction => {
             const row = document.createElement('tr');
             ['symbol', 'amount', 'price', 'total', 'date', 'type'].forEach(key => {
@@ -104,7 +70,7 @@
     <header>
         <div class="header-container">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/NovaSBE_Logo.svg/2560px-NovaSBE_Logo.svg.png" alt="Nova Sbe Logo" class="logo">
-            <h1>Nova Sbe Crypto Exchange</h1>
+            <h1>NOVA SBE Crypto Exchange</h1>
             <div class="logout">
               <a href="/logout" class="logout-button">
                 <button class="logout-button">Logout</button>
@@ -132,16 +98,18 @@
         <path d="M7 9V3.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5V9h-2z"/>
     </svg> Transaction History
   </a>
-  
 </nav>
-<!-- Page specific content goes here -->      
-    <section class="transaction-history" id="trans_table">
-      <h2>Transaction History</h2>
-      <table>
-        <tbody id="transaction-history-data">
-          <!-- Dynamic content for transaction history will be inserted here -->
-        </tbody>
-      </table>
+  <main>
+    <section class="specific-content">
+      <!-- Page specific content goes here -->      
+      <h2 class="table-title">Transaction History</h2>
+      <div id="trans_table">
+        <table>
+          <tbody id="transaction-history-data">
+            <!-- Dynamic content for transaction history will be inserted here -->
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
   <footer>

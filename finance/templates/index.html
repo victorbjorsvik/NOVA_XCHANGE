@@ -17,10 +17,11 @@
             accountNameElement.textContent = data.cash.username;
             const container = document.querySelector('#positions');
             const table = document.createElement('table');
-            table.className = 'center';
+            table.className = 'style-table';
 
             // Create table header
             const thead = document.createElement('thead');
+            thead.className = 'style-thead';
             const headerRow = document.createElement('tr');
             ['Coin', 'Amount', 'Price', 'Total', 'Sell Amount', 'Sell'].map((headerText, index) => {
                 const th = document.createElement('th');
@@ -38,6 +39,7 @@
 
 // Create table body
 const tbody = document.createElement('tbody');
+tbody.className = 'style-tbody';
 
 // Iterate over portfolio items
 data.portfolio.forEach((item, index) => {
@@ -228,7 +230,7 @@ function sendFormToServer(formData) {
   <p class="hello-user"> 👋 Hello, <span id="account-name"></span>! Are you ready to go to the moon?</p>
   <section class="balances">
     <div class="balance-item">
-      <h3>Stock Balance:</h3>
+      <h3>Crypto Balance:</h3>
       <p id="stock-balance">$8,779.34</p>
     </div>
     <div class="balance-item">
@@ -244,7 +246,7 @@ function sendFormToServer(formData) {
     <!-- Page specific content goes here -->
     <!-- For test.html, you can add the dashboard content here -->
 
-    <h2>Your Dashboard</h2>
+    <h2 class="table-title">Your Dashboard</h2>
     <div id="positions">
       <!-- Dynamic content for positions will be inserted here -->
     </div>

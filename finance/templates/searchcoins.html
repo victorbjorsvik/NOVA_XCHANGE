@@ -13,9 +13,11 @@
     const data_3 = await response_3.json();
     console.log(data_3);
     const table = document.createElement('table');
-    table.className = 'coin-table';
+    table.className = 'style-table';
+
+    // Create table header
     const thead = document.createElement('thead');
-    thead.className = 'coin-thead';
+    thead.className = 'style-thead';
     const headerRow = document.createElement('tr');
     ['Name', 'Symbol', 'Price'].forEach(headerText => {
       const th = document.createElement('th');
@@ -25,7 +27,11 @@
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
+
+    // Create table body
     const tbody = document.createElement('tbody');
+    tbody.className = 'style-tbody';
+
     data_3.data.forEach(coin => {
       const row = document.createElement('tr');
       ['name', 'symbol', 'priceUsd'].forEach(key => {
@@ -91,7 +97,7 @@
   <header>
     <div class="header-container">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/NovaSBE_Logo.svg/2560px-NovaSBE_Logo.svg.png" alt="Nova Sbe Logo" class="logo">
-      <h1>Nova Sbe Crypto Exchange</h1>
+      <h1>NOVA SBE Crypto Exchange</h1>
       <div class="logout">
         <a href="/logout" class="logout-button">
           <button class="logout-button">Logout</button>
@@ -135,10 +141,11 @@
             <input autocomplete="off" id="amount" name="amount" placeholder="Amount" type="text">
         </div>
         <button type="submit">Buy</button>
-    </form>
+      </form>
     </div>
     <div id="all_coins" class="specific-content">
       <!-- Table of all available coins will be added here dynamically -->
+    <h2 class="table-title">Available Coins</h2>
     </div>
   </main>
   <footer>
