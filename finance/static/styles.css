@@ -11,7 +11,7 @@ body {
 header {
     background-color: #3e3e3e;
     color: white;
-    padding: 10px 20px;
+    padding: 5px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -31,20 +31,12 @@ header {
     filter: invert(100%);
 }
 
-.navigation {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-grow: 1;
-    padding-left: 20px;
-}
-
 .logout {
     margin-left: auto;
 }
 
 .logout-button {
-    background-color: #d85454;
+    background-color: #e33e3e;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -53,14 +45,17 @@ header {
 }
 
 .logout-button:hover {
-    background-color: #ed1c1c;
+    background-color: #f00e0e;
 }
 
 /* Navigation styles */
 .navigation {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
     justify-content: space-around;
     background-color: #f0f0f0;
-    padding: 10px 0;
+    padding: 15px 50px;
 }
 
 .nav-button {
@@ -83,44 +78,47 @@ main {
     padding: 20px;
 }
 
-/* Container for specific content and charts */
-.specific-content,
-.chart-container {
-    margin: 30px auto;
-    padding: 30px;
-    background-color: #eaeaea;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: calc(100% - 60px);
-    box-sizing: border-box;
+.hello-user {
+    text-align: center;
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    order: 1;
 }
 
-.chart-container {
+.balances {
     display: flex;
-    justify-content: space-around; /* Adjust as per the desired spacing */
-    align-items: flex-start;
-    gap: 20px; /* Optional: Use gap to add space between the boxes */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Adjust as needed */
 }
 
-/* Chart box styles */
-.chart-box {
-    flex: 1;
-    max-width: calc(50% - 10px); /* Adjust width as needed */
-    padding: 20px;
-    background-color: #eaeaea;
+.balance-item {
+    background: #f8f8f8;
+    border: 1px solid #e1e1e1;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    margin: 0 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .chart-container {
-        flex-direction: column;
-    }
-    .chart-box {
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
+.balance-item h3 {
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.balance-item p {
+    color: #7d57c1;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 /* Wide search bar */
@@ -154,8 +152,97 @@ main {
     background-color: #0056b3;
 }
 
-/* Dashboard and balances */
+/* Container for specific content and charts */
+.specific-content {
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: calc(100% - 60px);
+    box-sizing: border-box;
+}
+
+/* Styles for the table */
+.table-title {
+    margin-bottom: 40px;
+}
+
 #positions {
+    font-family: 'Arial', sans-serif;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+#all-coins {
+    font-family: 'Arial', sans-serif;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.style-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Styles for the table header */
+  .style-thead th {
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: #3e3e3e;
+    color: white;
+  }
+
+  .style-thead th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  
+  .style-thead th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  /* Styles for the table body */
+  .style-tbody td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Styles for alternate row colors */
+  .style-tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Style for row hover */
+  .style-tbody tr:hover {
+    background-color: #ddd;
+  }
+  
+  .style-tbody th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .style-tbody td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .style-tbody th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .style-tbody td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+/* Dashboard and balances
+#positions, #all-coins {
     font-family: 'Arial', sans-serif;
     margin-top: 20px;
     overflow-x: auto;
@@ -196,46 +283,7 @@ main {
 #positions td:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-}
-
-.balances {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px; /* Adjust as needed */
-}
-
-.balance-item {
-    background: #f8f8f8;
-    border: 1px solid #e1e1e1;
-    border-radius: 8px;
-    padding: 20px;
-    width: 200px; /* Adjust width as needed */
-    margin: 0 15px;
-    width: 250px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.balance-item h3 {
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.balance-item p {
-    color: #7d57c1;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.hello-user {
-    text-align: center;
-    width: 100%;
-    font-size: 1.5em;
-    font-weight: bold;
-    margin: 40px 0;
-    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-    order: 1;
-}
+}*/
 
 /* Shared table styles */
 .coin-table {
@@ -268,3 +316,40 @@ main {
     background-color: #ddd;
   }
   
+  .chart-container {
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: calc(100% - 60px);
+    box-sizing: border-box;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: space-around; /* Adjust as per the desired spacing */
+    align-items: flex-start;
+    gap: 20px; /* Optional: Use gap to add space between the boxes */
+}
+
+/* Chart box styles */
+.chart-box {
+    flex: 1;
+    max-width: calc(50% - 10px); /* Adjust width as needed */
+    padding: 20px;
+    background-color: #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chart-container {
+        flex-direction: column;
+    }
+    .chart-box {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+}
