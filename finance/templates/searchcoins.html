@@ -61,7 +61,7 @@
 
   console.log('Event listener attached');
   searchButton.addEventListener('click', async () => {
-    const coinName = searchInput.value.trim().toLowerCase();
+        const coinName = searchInput.value.trim().toLowerCase();
     if (coinName) {
       try {
         // Fetch coin price from CoinCap API
@@ -80,6 +80,11 @@
 
         // Show the buy form
         document.getElementById('buy-form').style.display = 'block';
+
+        // Show analytics graphs
+        const analyticsWindow = document.getElementById('analytics');
+        // JUSTIN add analytics code inside the try block here (All necessary data for analytics is in "data")
+
       } catch (error) {
         priceWindow.textContent = 'Error fetching coin price';
       }
@@ -148,6 +153,10 @@
         </div>
         <button type="submit">Buy</button>
       </form>
+      <div id="analyticsWindow">
+        hello
+        <!-- Graphs will be added here dynamically -->
+      </div>
     </div>
     <div id="all_coins" class="specific-content">
       <!-- Table of all available coins will be added here dynamically -->
