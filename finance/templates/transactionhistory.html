@@ -6,7 +6,60 @@
   <title>Dashboard - Nova Sbe Crypto Exchange</title>
   <link rel="stylesheet" href="../static/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-zmvONaEtH6XFvXQ5QjYzTEzU1f3AsqMrnQ11Pv1yJlXmHVznLtJTz8dpQxL5RFvVuXtMQDQyWJtFPQopC4v4Qg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<<<<<<< HEAD
   
+=======
+  <style>
+    .transaction-history-container {
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #f2f2f2;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .transaction-history h2 {
+      color: #333;
+    }
+    .transaction-history table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .transaction-history th,
+    .transaction-history td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .transaction-history th {
+      background-color: #7d57c1; /* Purple */
+      color: white; /* White text */
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+    .transaction-history td:first-child {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+    .transaction-history th:last-child,
+    .transaction-history td:last-child {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+    .transaction-history tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .transaction-history tr:hover {
+      background-color: #ddd;
+    }
+    .transaction-history .buy {
+      color: red;
+    }
+    .transaction-history .sell {
+      color: green;
+    }
+  </style>
+>>>>>>> 3901195f40c673dd05f4bc02d101f3f768e85259
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       fetch('/API_history') // Assuming your Flask server is serving the API at this endpoint
