@@ -11,11 +11,25 @@ body {
 
 header {
     background-color: #3e3e3e;
-    color: #fff;
-    padding: 10px 30px; /* Decreased padding */
+    color: white;
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-container {
+    flex-grow: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+.logo {
+    width: 80px;
+    margin-right: 20px;
+    filter: invert(100%);
 }
 
 h1.title {
@@ -23,6 +37,7 @@ h1.title {
     font-size: 24px; 
     text-align: center;
 }
+
 
 .register-link,
 .login-link {

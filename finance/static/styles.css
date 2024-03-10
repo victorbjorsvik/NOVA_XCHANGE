@@ -141,7 +141,7 @@ main {
 }
 
 .wide-search button {
-    background-color: #007bff;
+    background-color: #3e3e3e;
     color: white;
     border: none;
     cursor: pointer;
@@ -149,7 +149,7 @@ main {
 }
 
 .wide-search button:hover {
-    background-color: #0056b3;
+    background-color: #292828;
 }
 
 /* Container for specific content and charts */
