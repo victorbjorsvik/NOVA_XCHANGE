@@ -5,7 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, session, jso
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd, list_coins
+from helpers import apology_login, apology_home, login_required, lookup, usd, list_coins
 
 # Configure application
 app = Flask(__name__)
@@ -20,8 +20,6 @@ Session(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
-
-#Hello 
 
 @app.after_request
 def after_request(response):
@@ -49,14 +47,14 @@ def buy():
 
         # Ensure valid ticker
         if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
-            return apology("Please insert valid coin", 400)
+            return apology_home("Please insert valid coin", 400)
 
         # Ensure valid amount
         try:
             if float(request.form.get("amount")) < 0:
-                return apology("Please insert a positive value", 400)
+                return apology_home("Please insert a positive value", 400)
         except ValueError:
-            return apology("please insert a valid float", 400)
+            return apology_home("please insert a valid float", 400)
 
         # Establish variables
         symbol = request.form.get("symbol")
@@ -68,7 +66,7 @@ def buy():
 
         # Ensure proper coverage
         if total > rows[0]["cash"]:
-            return apology("Not enough cash", 400)
+            return apology_home("Not enough cash", 400)
 
         # Insert purchase into history table
         db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
@@ -107,18 +105,18 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology_login("must provide username", 403)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology_login("must provide password", 403)
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
+            return apology_login("invalid username and/or password", 403)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -151,21 +149,21 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 400)
+            return apology_login("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 400)
+            return apology_login("must provide password", 400)
 
         if request.form.get("confirmation") != request.form.get("password"):
-            return apology("Passwords must match", 400)
+            return apology_login("Passwords must match", 400)
 
         # Query database for usernames
         usernames = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # username already exsists
         if len(usernames) != 0:
-            return apology("Username already taken", 400)
+            return apology_login("Username already taken", 400)
 
         # Insert new user into database
         username = request.form.get("username")
@@ -174,17 +172,17 @@ def register():
 
         # Password validation##https://stackoverflow.com/questions/41117733/validation-of-a-password-python
         if len(password) < 8:
-            return apology("password must be at least 8 characters", 403)
+            return apology_login("password must be at least 8 characters", 403)
         if len(password) > 20:
-            return apology("password must be less than 20 character", 403)
+            return apology_login("password must be less than 20 character", 403)
         if not any(char.isdigit() for char in password):
-            return apology("password must contain at least one digit", 403)
+            return apology_login("password must contain at least one digit", 403)
         if not any(char.isupper() for char in password):
-            return apology("password must contain at least one uppercase letter", 403)
+            return apology_login("password must contain at least one uppercase letter", 403)
         if not any(char.islower() for char in password):
-            return apology("password must contain at least one lowercase letter", 403)
+            return apology_login("password must contain at least one lowercase letter", 403)
         if not any(char in special for char in password):
-            return apology("password must contain at least one special symbol", 403)
+            return apology_login("password must contain at least one special symbol", 403)
 
         # Hash password and insert into DB
         hash = generate_password_hash(password)
@@ -235,28 +233,6 @@ def sell():
     db.execute("DELETE FROM holdings WHERE amount = 0")
 
     return jsonify({"success": True})
-
-@app.route("/coins", methods=["GET", "POST"])
-@login_required
-def coins():
-    """Get coin quote."""
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Ensure valid ticker
-        if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
-            return apology("Please insert valid ticker", 400)
-
-        # call the lookupfunction
-        coin = lookup(request.form.get("symbol"))
-        coin["price"] = usd(coin["price"])
-
-        return render_template("quoted.html", coin=coin)
-
-    else:
-        transactions = list_coins()
-        return render_template("coins.html", transactions=transactions)
     
 
 @app.route("/API_portfolio")
@@ -309,10 +285,6 @@ def API_history():
 def test():
     return render_template("transactionhistory.html")
 
-@app.route("/dashboard")
-@login_required
-def dashboard():
-    return render_template("test.html")
 
 @app.route("/searchcoins", methods=["GET", "POST"])
 @login_required
@@ -368,27 +340,3 @@ def searchcoins():
 
     else:
         return render_template("searchcoins.html")
-
-
-@app.route("/analytics", methods=["GET", "POST"])
-@login_required
-def analytics():
-    """Get coin quote."""
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Ensure valid ticker
-        if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
-            return apology("Please insert valid ticker", 400)
-
-        # call the lookupfunction
-        coin = lookup(request.form.get("symbol"))
-        coin["price"] = usd(coin["price"])
-
-        return render_template("analytics.html", coin=coin)
-
-    else:
-        return render_template("analytics.html")
-
-# staed for commit

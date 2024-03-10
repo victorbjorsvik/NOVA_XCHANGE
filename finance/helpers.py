@@ -6,10 +6,16 @@ from flask import redirect, render_template, request, session
 from functools import wraps
 
 
-def apology(message, code=400):
+def apology_login(message, code=400):
     """Render message as an apology to user."""
 
-    return render_template("apology.html", code=code, message=message), code
+    return render_template("apology_login.html", code=code, message=message), code
+
+
+def apology_home(message, code=400):
+    """Render message as an apology to user."""
+
+    return render_template("apology_home.html", code=code, message=message), code
 
 
 def login_required(f):
