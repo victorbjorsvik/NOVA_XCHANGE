@@ -84,6 +84,9 @@
         // Show analytics graphs
         const analyticsWindow = document.getElementById('analytics');
         // JUSTIN add analytics code inside the try block here (All necessary data for analytics is in "data")
+        const response_5 = await fetch(`https://api.coincap.io/v2/assets/${coinName}/history?interval=d1`)
+        const data_5 = await response_5.json();
+        console.log(data_5);
 
       } catch (error) {
         priceWindow.textContent = 'Error fetching coin price';
