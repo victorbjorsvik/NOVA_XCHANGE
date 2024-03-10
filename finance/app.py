@@ -296,14 +296,14 @@ def searchcoins():
 
         # Ensure valid ticker
         if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
-            return apology("Please insert valid coin", 400)
+            return apology_home("Please insert valid coin", 400)
 
         # Ensure valid amount
         try:
             if float(request.form.get("amount")) < 0:
-                return apology("Please insert a positive value", 400)
+                return apology_home("Please insert a positive value", 400)
         except ValueError:
-            return apology("please insert a valid float", 400)
+            return apology_home("please insert a valid float", 400)
 
         # Establish variables
         symbol = request.form.get("symbol")
@@ -315,7 +315,7 @@ def searchcoins():
 
         # Ensure proper coverage
         if total > rows[0]["cash"]:
-            return apology("Not enough cash", 400)
+            return apology_home("Not enough cash", 400)
 
         # Insert purchase into history table
         db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",

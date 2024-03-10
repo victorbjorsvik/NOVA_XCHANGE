@@ -32,13 +32,15 @@ header {
 }
 
 .register-link,
-.login-link {
+.login-link,
+.logout {
     margin-left: auto;
     font-size: 16px;
 }
 
 .register-link a,
-.login-link a {
+.login-link a,
+.logout {
     color: #fff;
     text-decoration: none;
 }
@@ -106,6 +108,10 @@ input[type="password"] {
 .logout-button:hover {
     background-color: #f00e0e;
 }
+
+/* .container-fluid py-5 text-center {
+
+}*/
 
 /* Navigation styles */
 .navigation {
