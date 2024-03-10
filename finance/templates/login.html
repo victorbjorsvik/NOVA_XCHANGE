@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Nova SBE Crypto Exchange</title>
-    <link rel="stylesheet" href="../static/loginstyle.css">
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-zmvONaEtH6XFvXQ5QjYzTEzU1f3AsqMrnQ11Pv1yJlXmHVznLtJTz8dpQxL5RFvVuXtMQDQyWJtFPQopC4v4Qg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
         <div class="header-container">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/NovaSBE_Logo.svg/2560px-NovaSBE_Logo.svg.png" alt="Nova Sbe Logo" class="logo">
             <h1>NOVA SBE Crypto Exchange</h1>
-
-        <div class="register-link">
-            <a href="/register">Register</a>
+            <div class="register-link">
+                <a href="/register" class="register-button">
+                    <button class="register-button">Register</button>
+                </a>
+            </div>
         </div>
-    </div>
-
     </header>
-
     <div class="login-container">
         <div class="welcome-message">
             <p>Welcome back! </p>
@@ -33,7 +33,7 @@
                 <label for="password"></label>
                 <input id="password" name="password" placeholder="Password" type="password">
             </div>
-            <button type="submit">Login</button>
+            <button class="login-form-button" type="submit">Login</button>
         </form>
     </div>
 </body>

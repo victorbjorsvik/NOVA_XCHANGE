@@ -20,9 +20,9 @@ header {
 .header-container {
     flex-grow: 1;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; /* Adjust padding as needed */
+    justify-content: flex-start; /* Aligns items to the start */
+    padding: 10px 20px;
 }
 
 .logo {
@@ -31,10 +31,67 @@ header {
     filter: invert(100%);
 }
 
+.register-link,
+.login-link {
+    margin-left: auto;
+    font-size: 16px;
+}
+
+.register-link a,
+.login-link a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.login-container,
+.register-container {
+    max-width: 400px;
+    margin: 100px auto 30px auto; /* Increased top margin */
+    padding: 30px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.login-form-button, 
+.register-form-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #3e3e3e;;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-form-button:hover, 
+.register-form-button:hover {
+    background-color: #292828;;
+}
+
 .logout {
     margin-left: auto;
 }
 
+.register-button,
+.login-button,
 .logout-button {
     background-color: #e33e3e;
     color: white;
@@ -44,6 +101,8 @@ header {
     cursor: pointer;
 }
 
+.register-button:hover,
+.login-button:hover,
 .logout-button:hover {
     background-color: #f00e0e;
 }
@@ -241,51 +300,7 @@ main {
     border-bottom-right-radius: 10px;
   }
 
-/* Dashboard and balances
-#positions, #all-coins {
-    font-family: 'Arial', sans-serif;
-    margin-top: 20px;
-    overflow-x: auto;
-}
-
-#positions table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-#positions th,
-#positions td {
-    text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-}
-
-#positions th {
-    background-color: #3e3e3e;
-    color: white;
-}
-
-#positions tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#positions tr:hover {
-    background-color: #ddd;
-}
-
-#positions th:first-child,
-#positions td:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-#positions th:last-child,
-#positions td:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}*/
-
-/* Shared table styles */
+/* Shared table styles
 .coin-table {
     width: 100%;
     border-collapse: collapse;
@@ -314,8 +329,8 @@ main {
   
   .coin-tbody tr:hover {
     background-color: #ddd;
-  }
-  
+  } */
+
   .chart-container {
     margin: 30px auto;
     padding: 30px;
