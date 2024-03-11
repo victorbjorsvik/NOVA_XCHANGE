@@ -195,6 +195,7 @@ main {
     align-items: center;
     max-width: 600px;
     margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 .wide-search input[type="text"],
@@ -218,6 +219,50 @@ main {
 
 .wide-search button:hover {
     background-color: #292828;
+}
+/* Price window styles */
+/* Price window styles */
+
+
+.price-window {
+    background-color: #eaeaea;
+    border: 1px solid #d3d3d3; /* Thin gray border */
+    padding: 20px; /* Padding around the text */
+    font-family: Arial, sans-serif; /* Same font family as the table */
+    font-size: 16px; /* Same font size as the table */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: calc(50% - 40px);
+    margin: 0 auto; /* Center the box horizontally */
+    margin-top: 30px;
+
+}
+
+/* Table styling */
+.price-table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.price-table td {
+    padding: 5px;
+}
+
+
+
+/* Buy button styling */
+.buy-button {
+    background-color: #e33e3e;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.buy-button:hover {
+    background-color: #f00e0e;
 }
 
 /* Container for specific content and charts */
