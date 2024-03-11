@@ -84,16 +84,17 @@
         document.getElementById('buy-form').style.display = 'block';
       } catch (error) {
         priceWindow.textContent = 'Error fetching coin price';
+        document.getElementById('buy-form').style.display = 'none';
       }
     } else {
       priceWindow.textContent = 'Please enter a coin name';
+      document.getElementById('buy-form').style.display = 'none';
     }
     const container = document.getElementById('container');
     container.appendChild(priceWindow);
-  });
 
-  const buyForm = document.getElementById('buy-form');
-  buyForm.addEventListener('submit', async (e) => {
+    const buyForm = document.getElementById('buy-form');
+    buyForm.addEventListener('submit', async (e) => {
     const numCoinsToBuy = parseFloat(document.getElementById('amount').value);
     const maxAmount = parseFloat(priceWindow.textContent.split('Maximum Possible Amount: ')[1]); 
     if (isNaN(numCoinsToBuy) || numCoinsToBuy <= 0) {
@@ -108,6 +109,9 @@
       return;
     } 
   });
+  });
+
+
 });
   </script>
 </head>
