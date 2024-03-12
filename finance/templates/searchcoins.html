@@ -72,7 +72,11 @@
   const searchInput = document.getElementById('wide-search');
   const searchButton = document.getElementById('search-button');
   const priceWindow = document.createElement('div');
-  priceWindow.classList.add('price-window');
+  priceWindow.classList.add('chart-box');
+
+  // Create another div for the right side
+  const rightDiv = document.createElement('div');
+  rightDiv.classList.add('chart-box'); // Use this class to apply similar styling as the priceWindow
  
   console.log('Event listener attached');
   searchButton.addEventListener('click', async () => {
@@ -118,6 +122,21 @@
               </form>
               </div>
             `;
+
+          // Analytics Chart Content
+          rightDiv.innerHTML = "<!-- You can add any content you want here -->";
+
+          // Create a container div to hold both divs
+          const divContainer = document.createElement('div');
+          divContainer.classList.add('chart-container'); // Use this class for flexbox layout
+
+          // Append both divs to the container
+          divContainer.appendChild(priceWindow);
+          divContainer.appendChild(rightDiv);
+
+          // Append the container div to the main container instead of just the priceWindow
+          const container = document.getElementById('container');
+          container.appendChild(divContainer);
  
         // Pre-populate the symbol input field and show the buy form
         document.getElementById('symbol').value = coinName;
