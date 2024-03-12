@@ -12,7 +12,7 @@
     fetch('/API_portfolio')
         .then(response => response.json())
         .then(data => {
-          
+
             const accountNameElement = document.querySelector('#account-name');
             accountNameElement.textContent = data.cash.username;
             const container = document.querySelector('#positions');
@@ -27,7 +27,7 @@
                 const th = document.createElement('th');
                 th.textContent = headerText;
                 if(index === 0 || index === 1 || index === 2 || index === 3){
-                  th.style.width = '300px'; 
+                  th.style.width = '300px';
                 } else {
                   th.style.width = '50px';
                 }
@@ -75,7 +75,7 @@ data.portfolio.forEach((item, index) => {
                     index: index
                 };
                 sendFormToServer(formData);
-              } else {  
+              } else {
                 alert('Invalid amount. Please enter amount between 0 and holdings amount');
               }
             });
@@ -113,7 +113,7 @@ function sendFormToServer(formData) {
         console.error('Error:', error);
     });
 }
-        
+
             table.appendChild(tbody);
             container.appendChild(table);
         })
@@ -183,7 +183,7 @@ function sendFormToServer(formData) {
       <!-- Dynamic content for positions will be inserted here -->
     </div>
   </section>
-  
+
   <section class="analytics">
     <div class="chart-container">
       <div class="chart-box">
@@ -192,7 +192,21 @@ function sendFormToServer(formData) {
         <!-- Placeholder for the pie chart -->
         <canvas id="myPieChart" width="400" height="400"></canvas>
         <script>
-          async function fetchPortfolioData() {
+
+
+
+
+
+function generateHSLColors(saturation, lightness, count) {
+    let colors = [];
+    for(let i = 0; i < count; i++) {
+        const hue = i * (360 / count);
+        colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+    }
+    return colors;
+}
+
+async function fetchPortfolioData() {
     try {
         const response = await fetch('http://127.0.0.1:5000/API_portfolio');
         const data = await response.json();
@@ -204,41 +218,22 @@ function sendFormToServer(formData) {
 
 async function createPieChart() {
     const data = await fetchPortfolioData();
-
     const ctx = document.getElementById('myPieChart').getContext('2d');
     const labels = ['Cash', ...data.portfolio.map(item => item.coin)];
-    const values = [
-        data.cash.cash,
-        ...data.portfolio.map(item => item.total_current)
-    ];
+    const values = [data.cash.cash, ...data.portfolio.map(item => item.total_current)];
+
+    // Use the generateHSLColors function to create as many colors as there are data points
+    const pieColors = generateHSLColors(70, 50, labels.length);
 
     new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: labels,
             datasets: [{
                 data: values,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(123, 14, 192, 0.6)',
-                    'rgba(30, 189, 214, 0.6)',
-                    'rgba(225, 215, 86, 0.6)',
-                    'rgba(70, 175, 192, 0.6)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
+                backgroundColor: pieColors,
+                borderColor: pieColors.map(color => color.replace('hsl', 'hsla').replace('%)', ', 1%)')), // darker border
+                borderWidth: 0.0
             }]
         },
         options: {
@@ -258,11 +253,131 @@ async function createPieChart() {
 
 createPieChart();
 
+
+
+
+
+
+
+
+
+
+
+
+
         </script>
       </div>
       <div class="chart-box">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Include the Moment adapter for Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
+
         <h2>Portfolio Evolution</h2>
-        <!-- Placeholder for the line chart -->     
+        <!-- Placeholder for the line chart -->
+        <canvas id="balanceChart" width="400" height="400"></canvas>
+        <script>
+
+
+
+async function fetchAPI_balanceData() {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/API_balance');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function createLineChart() {
+    const rawData = await fetchAPI_balanceData();
+    const transactions = rawData.transactions;
+
+    // Grouping transactions by date and calculating average balance per day
+    const balanceByDate = transactions.reduce((acc, {date, balance}) => {
+        // Format date to YYYY-MM-DD
+        const formattedDate = new Date(date).toISOString().split('T')[0];
+        if (!acc[formattedDate]) {
+            acc[formattedDate] = { totalBalance: 0, count: 0 };
+        }
+        acc[formattedDate].totalBalance += balance;
+        acc[formattedDate].count += 1;
+        return acc;
+    }, {});
+
+    const averageBalancePerDay = Object.entries(balanceByDate).map(([date, {totalBalance, count}]) => {
+        return { date, averageBalance: totalBalance / count };
+    });
+
+    // Preparing the data for the chart
+    const labels = averageBalancePerDay.map(item => item.date);
+    const data = averageBalancePerDay.map(item => item.averageBalance);
+
+    const ctx = document.getElementById('balanceChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Average Balance Over Time',
+                data: data,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        tooltipFormat: 'll',
+                        displayFormats: {
+                            day: 'YYYY-MM-DD'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Average Balance'
+                    }
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Balance Evolution Over Time (Daily Average)'
+                }
+            }
+        }
+    });
+}
+
+createLineChart();
+
+
+
+
+
+
+
+
+
+
+
+        </script>
       </div>
     </div>
   </section>
