@@ -14,6 +14,21 @@
     const response_3 = await fetch('https://api.coincap.io/v2/assets');
     const data_3 = await response_3.json();
     console.log(data_3);
+
+    // Extract the names of the coins for autocomplete
+    const coinNames = data_3.data.map(coin => coin.name);
+
+    // Get the search input element and datalist element
+    const searchInput = document.getElementById('wide-search');
+    const dataList = document.getElementById('coins-datalist');
+
+    // Populate the datalist with options
+    coinNames.forEach(coinName => {
+      const option = document.createElement('option');
+      option.value = coinName;
+      dataList.appendChild(option);
+    });
+
     const table = document.createElement('table');
     table.className = 'style-table';
  
@@ -61,7 +76,7 @@
  
   console.log('Event listener attached');
   searchButton.addEventListener('click', async () => {
-    const coinName = searchInput.value.trim().toLowerCase();
+    const coinName = searchInput.value.trim().replace(/\s+/g, '-').toLowerCase();
     if (coinName) {
       try {
         // Fetch coin price from CoinCap API
@@ -182,7 +197,10 @@
     <main>
       <div class="wide-search">
         <input type="text" class="dashboard-input"
-          placeholder="Search for coins..." id="wide-search">
+          placeholder="Search for coins..." id="wide-search" list="coins-datalist">
+          <datalist id="coins-datalist">
+            <!-- Options will be dynamically populated here by the script -->
+          </datalist>
         <button type="button" class="search-button"
           id="search-button">Search</button>
       </div>
