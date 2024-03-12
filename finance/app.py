@@ -1,10 +1,8 @@
 import os
-
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-
 from helpers import apology_login, apology_home, login_required, lookup, usd, list_coins
 
 # Configure application
@@ -21,6 +19,7 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
+
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -35,62 +34,6 @@ def after_request(response):
 def index():
     """Render Welcome Page"""
     return render_template("index.html")
-
-
-@app.route("/buy", methods=["GET", "POST"])
-@login_required
-def buy():
-    """Buy amount of coin"""
-
-    # User reached route via POST
-    if request.method == "POST":
-
-        # Ensure valid ticker
-        if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
-            return apology_home("Please insert valid coin", 400)
-
-        # Ensure valid amount
-        try:
-            if float(request.form.get("amount")) < 0:
-                return apology_home("Please insert a positive value", 400)
-        except ValueError:
-            return apology_home("please insert a valid float", 400)
-
-        # Establish variables
-        symbol = request.form.get("symbol")
-        amount = float(request.form.get("amount"))
-        coin = lookup(symbol)
-        price = float(coin["price"])
-        total = amount * price
-        rows = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
-
-        # Ensure proper coverage
-        if total > rows[0]["cash"]:
-            return apology_home("Not enough cash", 400)
-
-        # Insert purchase into history table
-        db.execute("INSERT INTO history (user_id, symbol, price, amount, total, date) VALUES(?, ?, ?, ?, ?, datetime('now'))",
-                   session["user_id"], symbol, price, amount, total * -1)
-
-        # Update holdings
-        portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session["user_id"])
-        holdings = []
-        for i in range(len(portfolio)):
-            holdings.append(portfolio[i]["symbol"])
-
-        if symbol in holdings:
-            db.execute("UPDATE holdings SET amount = amount + ? WHERE symbol = ? AND user_id = ?",
-                       amount, symbol, session["user_id"])
-        else:
-            db.execute("INSERT INTO holdings (user_id, symbol, amount) VALUES (?, ?, ?)", session["user_id"], symbol, amount)
-
-        # Update remaining cash
-        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?", total, session["user_id"])
-
-        return redirect("/")
-
-    else:
-        return render_template("buy.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -194,6 +137,7 @@ def register():
     else:
         return render_template("register.html")
 
+
 @app.route("/sell", methods=["POST"])
 @login_required
 def sell():
@@ -220,6 +164,8 @@ def sell():
     # Ensure enough coins
     if amount > holding[0]["amount"]:
         return jsonify({"error": "Not enough amount"}), 400
+    elif amount <= 0:
+        return jsonify({"error": "Enter amount larger than 0"}), 400
 
     # Update the database
     coin_data = lookup(coin)
@@ -279,6 +225,7 @@ def API_history():
     }
 
     return jsonify(response_data)
+
 
 @app.route("/history")
 @login_required

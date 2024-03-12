@@ -70,7 +70,7 @@ data.portfolio.forEach((item, index) => {
             sellButton.style.color = 'white';
             sellButton.addEventListener('click', () => {
               const sellAmount = row.getElementsByTagName('input')[0].value;
-              if (sellAmount >= 0 &&  sellAmount <= item.amount) {
+              if (sellAmount > 0 &&  sellAmount <= item.amount) {
                 // Send form data to Flask server
                 const formData = {
                     coin: row.getElementsByTagName('td')[0].textContent,
