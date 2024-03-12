@@ -33,6 +33,23 @@ def after_request(response):
 @login_required
 def index():
     """Render Welcome Page"""
+    portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session.get("user_id"))
+
+    # Add current price and name of stock to portfolio
+    for i in range(len(portfolio)):
+        add = lookup(portfolio[i]["symbol"])
+        portfolio[i]["coin"] = add["name"]
+        portfolio[i]["price_current"] = add["price"]
+        portfolio[i]["total_current"] = portfolio[i]["amount"] * portfolio[i]["price_current"]
+    # Fetch current cash and Username from DB
+            # Insert purchase into history table
+    sum_holdings = sum(portfolio[i]["total_current"] for i in range(len(portfolio)))
+
+
+    db.execute("INSERT INTO balanceTime (user_id, balance, date) VALUES(?, ?, datetime('now'))",
+                   session["user_id"], sum_holdings)
+
+
     return render_template("index.html")
 
 
@@ -182,6 +199,7 @@ def sell():
     
 
 @app.route("/API_portfolio")
+@login_required
 def API_portfolio():
     # Establish portfolio
     portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session.get("user_id"))
@@ -287,3 +305,41 @@ def searchcoins():
 
     else:
         return render_template("searchcoins.html")
+
+
+@app.route("/analytics", methods=["GET", "POST"])
+@login_required
+def analytics():
+    """Get coin quote."""
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure valid ticker
+        if not request.form.get("symbol") or lookup(request.form.get("symbol")) == None:
+            return apology("Please insert valid ticker", 400)
+
+        # call the lookupfunction
+        coin = lookup(request.form.get("symbol"))
+        coin["price"] = usd(coin["price"])
+
+        return render_template("analytics.html", coin=coin)
+
+    else:
+        return render_template("analytics.html")
+
+@app.route("/API_balance")
+@login_required
+def API_balanceTime():
+    """Show history of transactions"""
+    transactions = db.execute("SELECT * FROM balanceTime WHERE user_id = ?", session["user_id"])
+
+    # Convert transactions to a list of dictionaries
+    transactions_list = [dict(transaction) for transaction in transactions]
+
+    # Prepare JSON response
+    response_data = {
+        "transactions": transactions_list
+    }
+
+    return jsonify(response_data)
