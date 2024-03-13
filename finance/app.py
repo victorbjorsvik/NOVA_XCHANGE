@@ -19,7 +19,6 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
-
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -33,6 +32,23 @@ def after_request(response):
 @login_required
 def index():
     """Render Welcome Page"""
+    portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session.get("user_id"))
+
+    # Add current price and name of stock to portfolio
+    for i in range(len(portfolio)):
+        add = lookup(portfolio[i]["symbol"])
+        portfolio[i]["coin"] = add["name"]
+        portfolio[i]["price_current"] = add["price"]
+        portfolio[i]["total_current"] = portfolio[i]["amount"] * portfolio[i]["price_current"]
+    # Fetch current cash and Username from DB
+            # Insert purchase into history table
+    sum_holdings = sum(portfolio[i]["total_current"] for i in range(len(portfolio)))
+
+
+    db.execute("INSERT INTO balanceTime (user_id, balance, date) VALUES(?, ?, datetime('now'))",
+                   session["user_id"], sum_holdings)
+
+
     return render_template("index.html")
 
 
@@ -182,6 +198,7 @@ def sell():
     
 
 @app.route("/API_portfolio")
+@login_required
 def API_portfolio():
     # Establish portfolio
     portfolio = db.execute("SELECT * FROM holdings WHERE user_id = ?", session.get("user_id"))
@@ -287,3 +304,20 @@ def searchcoins():
 
     else:
         return render_template("searchcoins.html")
+
+
+@app.route("/API_balance")
+@login_required
+def API_balanceTime():
+    """Show history of transactions"""
+    transactions = db.execute("SELECT * FROM balanceTime WHERE user_id = ?", session["user_id"])
+
+    # Convert transactions to a list of dictionaries
+    transactions_list = [dict(transaction) for transaction in transactions]
+
+    # Prepare JSON response
+    response_data = {
+        "transactions": transactions_list
+    }
+
+    return jsonify(response_data)
