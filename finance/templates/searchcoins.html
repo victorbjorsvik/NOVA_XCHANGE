@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../static/styles.css">
     <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -96,7 +96,9 @@
 
   // Create another div for the right side
   const rightDiv = document.createElement('div');
-  rightDiv.classList.add('chart-box'); // Use this class to apply similar styling as the priceWindow
+  rightDiv.classList.add('chart-box');
+  const searchCoinCanvas = document.createElement("canvas");
+  searchCoinCanvas.id = "searchCoinCanvas";
 
   // Create a container div to hold both divs
   const divContainer = document.createElement('div');
@@ -104,7 +106,8 @@
   
   console.log('Event listener attached');
   searchButton.addEventListener('click', async () => {
-        const coinName = searchInput.value.trim().toLowerCase();
+    const coinName = searchInput.value.trim().replace(/\s+/g, '-').toLowerCase();
+    const coinName_2 = searchInput.value.trim().toLowerCase();
     if (coinName) {
       filterTableRows(coinName_2);
       try {
@@ -148,8 +151,58 @@
               </div>
             `;
 
+            async function fetchDataAndRenderChart() {
+            try {
+                // Await the fetch call to complete and get the response
+                const response_searchChoin = await fetch(`https://api.coincap.io/v2/assets/${coinName}/history?interval=d1`);
+
+                // Await the conversion of the response to JSON
+                const data_searchChoin = await response_searchChoin.json();
+
+                // Once the data is obtained, call the function to render the chart
+                renderChart(data_searchChoin);
+            } catch (error) {
+                // Log any errors that occur during the fetch or rendering process
+                console.error("Failed to fetch or render chart:", error);
+            }
+        }
+
+        async function renderChart(data_searchChoin) {
+            const ctx = document.getElementById('searchCoinCanvas').getContext('2d');
+            const labels = data_searchChoin.data.map(item => new Date(item.time).toLocaleDateString());
+            const dataPoints = data_searchChoin.data.map(item => parseFloat(item.priceUsd));
+
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Price USD',
+                        data: dataPoints,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        fetchDataAndRenderChart();
+
+
           // Analytics Chart Content
-          rightDiv.innerHTML = `<h2>${name} Evolution</h2>`;
+          rightDiv.innerHTML = `
+            <h2>${coinName} development over time</h2>
+            <canvas id="searchCoinCanvas"></canvas>
+          `;
+          //rightDiv.appendChild(searchCoinCanvas);
 
           // Append both divs to the container
           divContainer.appendChild(priceWindow);
@@ -215,88 +268,64 @@
         </div>
       </div>
     </div>
-  </header>
-  <nav class="navigation">
-    <a href="/" class="nav-button">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-      </svg> Account
-    </a>
-    <a href="/searchcoins" class="nav-button">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-      </svg> Search Coins
-    </a>
-    <a href="/history" class="nav-button">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-        <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
-        <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z" />
-      </svg> Transaction History
-    </a>
-  </nav>
-  <main>
-    <div class="wide-search">
-      <input type="text" class="dashboard-input" placeholder="Search for coins..." id="wide-search">
-      <button type="button" class="search-button" id="search-button">Search</button>
-    </div>
-    <div id="container">
-      <!-- Search results and price display will be added here dynamically -->
-    </div>
-    <div id="buy-form" style="display: none;">
-      <form action="/searchcoins" method="post">
-        <div>
-            <input autocomplete="off" id="symbol" name="symbol" placeholder="Enter Coin" type="text">
-        </div>
-        <div>
-            <input autocomplete="off" id="amount" name="amount" placeholder="Amount" type="text">
-        </div>
-        <button type="submit">Buy</button>
-      </form>
-      <div id="analyticsWindow">
-        // dynamically add analytics graphs here -> Justin
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- Graphs will be added here dynamically -->
+    </header>
+    <nav class="navigation">
+      <a href="/" class="nav-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+          <path fill-rule="evenodd"
+            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+        </svg> Account
+      </a>
+      <a href="/searchcoins" class="nav-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+        </svg> Search Coins
+      </a>
+      <a href="/history" class="nav-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
+          <path
+            d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
+          <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z" />
+        </svg> Transaction History
+      </a>
+    </nav>
+    <main>
+      <div class="wide-search">
+        <input type="text" class="dashboard-input"
+          placeholder="Search for coins..." id="wide-search" list="coins-datalist">
+          <datalist id="coins-datalist">
+            <!-- Options will be dynamically populated here by the script -->
+          </datalist>
+        <button type="button" class="search-button"
+          id="search-button">Search</button>
       </div>
-    </div>
-    <div id="all_coins" class="specific-content">
-      <!-- Table of all available coins will be added here dynamically -->
-    <h2 class="table-title">Available Coins</h2>
-    </div>
-  </main>
-  <footer>
-    <p>&copy; 2023 Nova Sbe Crypto Exchange</p>
-  </footer>
-</body>
+      <div id="container">
+        <!-- Search results and price display will be added here dynamically -->
+      </div>
+      <div id="buy-form" style="display: none;">
+        <form action="/searchcoins" method="post">
+          <div>
+            <input autocomplete="on" id="symbol" name="symbol" type="text"
+              style="display: none;">
+          </div>
+        </form>
+        <div id="analyticsWindow">
+          // dynamically add analytics graphs here -> JUSTIN
+          <!-- Graphs will be added here dynamically -->
+        </div>
+      </div>
+      <div id="all_coins" class="specific-content">
+        <!-- Table of all available coins will be added here dynamically -->
+        <h2 class="table-title">Available Coins</h2>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2023 Nova Sbe Crypto Exchange</p>
+    </footer>
+  </body>
 </html>

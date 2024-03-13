@@ -206,10 +206,6 @@ function sendFormToServer(formData) {
         <canvas id="myPieChart" width="400" height="400"></canvas>
         <script>
 
-
-
-
-
 function generateHSLColors(saturation, lightness, count) {
     let colors = [];
     for(let i = 0; i < count; i++) {
@@ -221,7 +217,7 @@ function generateHSLColors(saturation, lightness, count) {
 
 async function fetchPortfolioData() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/API_portfolio');
+        const response = await fetch('/API_portfolio');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -282,7 +278,7 @@ createPieChart();
 
 async function fetchAPI_balanceData() {
     try {
-        const response = await fetch('http://127.0.0.1:5000/API_balance');
+        const response = await fetch('API_balance');
         const data = await response.json();
         return data;
     } catch (error) {
