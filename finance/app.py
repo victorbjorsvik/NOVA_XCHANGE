@@ -1,6 +1,6 @@
 import os
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session, jsonify
+from flask import Flask, flash, redirect, render_template, request, session, jsonify, send_from_directory
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology_login, apology_home, login_required, lookup, usd, list_coins
@@ -321,3 +321,11 @@ def API_balanceTime():
     }
 
     return jsonify(response_data)
+
+
+@app.route('/scripts/<path:filename>')
+def serve_scripts(filename):
+    if filename.endswith('.js'):
+        return send_from_directory('scripts', filename, mimetype='application/javascript')
+    else:
+        return send_from_directory('scripts', filename)
