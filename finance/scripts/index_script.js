@@ -51,9 +51,9 @@ data.portfolio.forEach((item, index) => {
         } else if (cellIndex === 5) {
             // Create sell button
             const sellButton = document.createElement('button');
+            sellButton.className = "sell-button"; // Add the class for styling
+            sellButton.style.width = '50px';
             sellButton.textContent = 'Sell';
-            sellButton.style.backgroundColor = 'red';
-            sellButton.style.color = 'white';
             sellButton.addEventListener('click', () => {
               const sellAmount = row.getElementsByTagName('input')[0].value;
               if (sellAmount > 0 &&  sellAmount <= item.amount) {

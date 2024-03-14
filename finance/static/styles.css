@@ -249,7 +249,16 @@ main {
 }
 
 
-
+.sell-button {
+    background-color: #e33e3e;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+  }  
 
 
 .div-container {
@@ -394,8 +403,10 @@ main {
     background-color: #eaeaea;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 30px;
-}
+    margin-left: 5px;
+    flex: 1;
+    min-height: 400px; /* Adjust as needed */
+  }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

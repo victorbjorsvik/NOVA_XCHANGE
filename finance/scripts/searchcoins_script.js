@@ -163,8 +163,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                   <tr>
                     <td>Maximum Possible Amount:</td>
                     <td id='max_amount'>${(cash / roundedPrice).toFixed(2)}</td>
-                  </tr>
                 </table>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p>Enter the Amount and Confirm the Transaction:</p>
                 <div id="buy-form">
                 <form action="/searchcoins" method="post">
                   <label for="amount">Amount:</label>
@@ -223,7 +227,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
             // Analytics Chart Content
             rightDiv.innerHTML = `
-              <h2>${coinName} development over time</h2>
+              <h2>${name} Development over Time</h2>
               <canvas id="searchCoinCanvas"></canvas>
             `;
             //rightDiv.appendChild(searchCoinCanvas);
