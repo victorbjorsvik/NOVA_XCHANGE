@@ -325,6 +325,7 @@ def API_balanceTime():
 
 @app.route('/scripts/<path:filename>')
 def serve_scripts(filename):
+    """Route to serve JavaScript files"""
     if filename.endswith('.js'):
         return send_from_directory('scripts', filename, mimetype='application/javascript')
     else:

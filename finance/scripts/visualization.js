@@ -1,25 +1,3 @@
-// ############################################ Api for History #############################################
-// https://docs.coincap.io/
-//var requestOptions = {
-//    method: 'GET',
-//    redirect: 'follow'
-//  };
-
-//  fetch("api.coincap.io/v2/assets/bitcoin/history?interval=d1", requestOptions)
-//    .then(response => response.text())
-//    .then(result => console.log(result))
-//    .catch(error => console.log('error', error));
-
-
-// ############################################ Pie Chart #############################################
-
-//<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-//</head>
-//<body>
-//    <canvas id="myPieChart" width="400" height="400"></canvas>
-//    <script src="script.js"></script>
-
-
 async function fetchPortfolioData() {
     try {
         const response = await fetch('http://127.0.0.1:5000/API_portfolio');
@@ -83,8 +61,6 @@ async function createPieChart() {
 createPieChart();
 
 // ############################################ Line Chart #############################################
-
-
 async function fetchAPI_balanceData() {
     try {
         const response = await fetch('http://127.0.0.1:5000/API_balance');
@@ -170,7 +146,7 @@ async function createLineChart() {
     const transactions = rawData.transactions;
 
     // Grouping transactions by date and calculating average balance per day
-    const balanceByDate = transactions.reduce((acc, {date, balance}) => {
+    const balanceByDate = transactions.reduce((acc, { date, balance }) => {
         // Format date to YYYY-MM-DD
         const formattedDate = new Date(date).toISOString().split('T')[0];
         if (!acc[formattedDate]) {
@@ -181,7 +157,7 @@ async function createLineChart() {
         return acc;
     }, {});
 
-    const averageBalancePerDay = Object.entries(balanceByDate).map(([date, {totalBalance, count}]) => {
+    const averageBalancePerDay = Object.entries(balanceByDate).map(([date, { totalBalance, count }]) => {
         return { date, averageBalance: totalBalance / count };
     });
 

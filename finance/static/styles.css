@@ -21,7 +21,8 @@ header {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Aligns items to the start */
+    justify-content: flex-start;
+    /* Aligns items to the start */
     padding: 10px 20px;
 }
 
@@ -48,7 +49,8 @@ header {
 .login-container,
 .register-container {
     max-width: 400px;
-    margin: 100px auto 30px auto; /* Increased top margin */
+    margin: 100px auto 30px auto;
+    /* Increased top margin */
     padding: 30px;
     background-color: #f2f2f2;
     border-radius: 8px;
@@ -70,22 +72,24 @@ input[type="password"] {
     font-size: 16px;
 }
 
-.login-form-button, 
+.login-form-button,
 .register-form-button {
     width: 100%;
     padding: 12px;
     border: none;
     border-radius: 6px;
-    background-color: #3e3e3e;;
+    background-color: #3e3e3e;
+    ;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.login-form-button:hover, 
+.login-form-button:hover,
 .register-form-button:hover {
-    background-color: #292828;;
+    background-color: #292828;
+    ;
 }
 
 .logout {
@@ -154,7 +158,8 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px; /* Adjust as needed */
+    margin-bottom: 20px;
+    /* Adjust as needed */
 }
 
 .balance-item {
@@ -217,14 +222,19 @@ main {
 /* Price window styles */
 .price-window {
     background-color: #eaeaea;
-    border: 1px solid #d3d3d3; /* Thin gray border */
-    padding: 20px; /* Padding around the text */
-    font-family: Arial, sans-serif; /* Same font family as the table */
-    font-size: 16px; /* Same font size as the table */
+    border: 1px solid #d3d3d3;
+    /* Thin gray border */
+    padding: 20px;
+    /* Padding around the text */
+    font-family: Arial, sans-serif;
+    /* Same font family as the table */
+    font-size: 16px;
+    /* Same font size as the table */
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     max-width: calc(50% - 40px);
-    margin: 0 auto; /* Center the box horizontally */
+    margin: 0 auto;
+    /* Center the box horizontally */
     margin-top: 30px;
 }
 
@@ -247,17 +257,19 @@ main {
     cursor: pointer;
     display: inline-block;
     font-weight: bold;
-  }  
+}
 
 .div-container {
     display: flex;
     justify-content: start;
     align-items: start;
-    gap: 20px; /* Adjust the gap between the divs as needed */
+    gap: 20px;
+    /* Adjust the gap between the divs as needed */
 }
-  
+
 .left-div, .right-div {
-    flex-basis: 50%; /* Adjust the width as needed, ensures both divs take up equal space */
+    flex-basis: 50%;
+    /* Adjust the width as needed, ensures both divs take up equal space */
     /* Apply any common styling for these divs here */
 }
 
@@ -307,63 +319,63 @@ main {
 .style-table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-  /* Styles for the table header */
-  .style-thead th {
+}
+
+/* Styles for the table header */
+.style-thead th {
     text-align: left;
     padding: 15px;
     border-bottom: 1px solid #ddd;
     background-color: #3e3e3e;
     color: white;
-  }
+}
 
-  .style-thead th:first-child {
+.style-thead th:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-  }
-  
-  .style-thead th:last-child {
+}
+
+.style-thead th:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-  }
-  
-  /* Styles for the table body */
-  .style-tbody td {
+}
+
+/* Styles for the table body */
+.style-tbody td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-  }
-  
-  /* Styles for alternate row colors */
-  .style-tbody tr:nth-child(even) {
+}
+
+/* Styles for alternate row colors */
+.style-tbody tr:nth-child(even) {
     background-color: #f2f2f2;
-  }
-  
-  /* Style for row hover */
-  .style-tbody tr:hover {
+}
+
+/* Style for row hover */
+.style-tbody tr:hover {
     background-color: #ddd;
-  }
-  
-  .style-tbody th:first-child {
+}
+
+.style-tbody th:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-  }
+}
 
-  .style-tbody td:first-child {
+.style-tbody td:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-  }
+}
 
-  .style-tbody th:last-child {
+.style-tbody th:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-  }
+}
 
-  .style-tbody td:last-child {
+.style-tbody td:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-  }
+}
 
 .chart-container {
     margin: 30px auto;
@@ -374,29 +386,34 @@ main {
     max-width: calc(100% - 60px);
     box-sizing: border-box;
     display: flex;
-    justify-content: space-around; /* Adjust as per the desired spacing */
+    justify-content: space-around;
+    /* Adjust as per the desired spacing */
     align-items: flex-start;
-    gap: 20px; /* Optional: Use gap to add space between the boxes */
+    gap: 20px;
+    /* Optional: Use gap to add space between the boxes */
 }
 
 /* Chart box styles */
 .chart-box {
     flex: 1;
-    max-width: calc(50% - 10px); /* Adjust width as needed */
+    max-width: calc(50% - 10px);
+    /* Adjust width as needed */
     padding: 20px;
     background-color: #eaeaea;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-left: 5px;
     flex: 1;
-    min-height: 400px; /* Adjust as needed */
-  }
+    min-height: 400px;
+    /* Adjust as needed */
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .chart-container {
         flex-direction: column;
     }
+
     .chart-box {
         max-width: 100%;
         margin-bottom: 20px;
@@ -420,7 +437,10 @@ main {
 .error-message,
 .error-code {
     font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-    font-size: 1.5em; /* Example size, adjust as needed */
-    color: #333; /* Example color, adjust as needed */
-    margin: 20px 0; /* Provide some spacing around the text */
+    font-size: 1.5em;
+    /* Example size, adjust as needed */
+    color: #333;
+    /* Example color, adjust as needed */
+    margin: 20px 0;
+    /* Provide some spacing around the text */
 }

@@ -1,7 +1,7 @@
 
 function generateHSLColors(saturation, lightness, count) {
     let colors = [];
-    for(let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i++) {
         const hue = i * (360 / count);
         colors.push(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
     }
@@ -71,7 +71,7 @@ async function createLineChart() {
     const transactions = rawData.transactions;
 
     // Grouping transactions by date and calculating average balance per day
-    const balanceByDate = transactions.reduce((acc, {date, balance}) => {
+    const balanceByDate = transactions.reduce((acc, { date, balance }) => {
         // Format date to YYYY-MM-DD
         const formattedDate = new Date(date).toISOString().split('T')[0];
         if (!acc[formattedDate]) {
@@ -82,7 +82,7 @@ async function createLineChart() {
         return acc;
     }, {});
 
-    const averageBalancePerDay = Object.entries(balanceByDate).map(([date, {totalBalance, count}]) => {
+    const averageBalancePerDay = Object.entries(balanceByDate).map(([date, { totalBalance, count }]) => {
         return { date, averageBalance: totalBalance / count };
     });
 
