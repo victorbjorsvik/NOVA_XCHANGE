@@ -2,8 +2,32 @@ fetch('/API_portfolio')
     .then(response => response.json())
     .then(data => {
 
+        // Update account name
         const accountNameElement = document.querySelector('#account-name');
         accountNameElement.textContent = data.cash.username;
+
+        // Update crypto balance
+        const cryptoBalanceElement = document.querySelector('#stock-balance');
+        cryptoBalanceElement.textContent = `$${data.sum_holdings.toFixed(2)}`;
+
+        // Update cash balance
+        const cashBalanceElement = document.querySelector('#cash-balance');
+        cashBalanceElement.textContent = `$${data.cash.cash.toFixed(2)}`;
+
+         // Update total balance
+         const totalBalanceElement = document.querySelector('#total-balance');
+         totalBalanceElement.textContent = `$${data.total.toFixed(2)}`;
+
+
+
+
+
+
+
+
+
+
+
         const container = document.querySelector('#positions');
         const table = document.createElement('table');
         table.className = 'style-table';
