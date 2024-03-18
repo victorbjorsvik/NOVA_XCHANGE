@@ -14,19 +14,9 @@ fetch('/API_portfolio')
         const cashBalanceElement = document.querySelector('#cash-balance');
         cashBalanceElement.textContent = `$${data.cash.cash.toFixed(2)}`;
 
-         // Update total balance
-         const totalBalanceElement = document.querySelector('#total-balance');
-         totalBalanceElement.textContent = `$${data.total.toFixed(2)}`;
-
-
-
-
-
-
-
-
-
-
+        // Update total balance
+        const totalBalanceElement = document.querySelector('#total-balance');
+        totalBalanceElement.textContent = `$${data.total.toFixed(2)}`;
 
         const container = document.querySelector('#positions');
         const table = document.createElement('table');
